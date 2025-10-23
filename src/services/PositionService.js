@@ -1,11 +1,28 @@
 import Position from "../models/Position.js";
 
 class PositionService {
+  //feito
   async getAll() {
-    return await Position.findAll();
+    const position = await Position.findAll();
+    if (!position) throw new Error("Ocorreu um erro ao buscar funções.");
+
+    if (position == 0) throw new Error("Não foram encontradas funções.");
+
+    return position;
   }
 
+  //feito
   async store(data) {
+    if (!data.name || data.name == "") {
+      throw new Error("O nome precisa ser preenchido.");
+    }
+    if (data.salary <= 0) {
+      throw new Error("O salario não poder ser 0 ou negativo");
+    }
+    if (!data.salary) {
+      throw new Error("O salário precisa ser preenchido.");
+    }
+
     return await Position.create(data);
   }
 

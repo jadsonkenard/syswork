@@ -1,15 +1,17 @@
 import PositionService from "../services/PositionService.js";
 
 class PositionController {
+  //tranferida a validação para o service
   async getAll(req, res) {
     try {
       const positions = await PositionService.getAll();
       res.json(positions);
     } catch (error) {
-      res.status(500).json({ message: "Erro ao listar funções. " + error });
+      res.status(400).json({ message: error.message });
     }
   }
 
+  //tranferida a validação para o service
   async store(req, res) {
     try {
       const { name, salary } = req.body;
@@ -17,7 +19,7 @@ class PositionController {
       const position = await PositionService.store({ name, salary });
       res.status(201).json(position);
     } catch (error) {
-      res.status(500).json({ message: "Erro ao criar função. " + error });
+      res.status(400).json({ message: error.message });
     }
   }
 
