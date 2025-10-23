@@ -1,9 +1,9 @@
-import Position from "../models/Position.js";
+import PositionService from "../services/PositionService.js";
 
 class PositionController {
   async getAll(req, res) {
     try {
-      const positions = await Position.findAll();
+      const positions = await PositionService.getAll();
       res.json(positions);
     } catch (error) {
       res.status(500).json({ message: "Erro ao listar funções. " + error });
@@ -14,7 +14,7 @@ class PositionController {
     try {
       const { name, salary } = req.body;
 
-      const position = await Position.create({ name, salary });
+      const position = await PositionService.store({ name, salary });
       res.status(201).json(position);
     } catch (error) {
       res.status(500).json({ message: "Erro ao criar função. " + error });
@@ -24,7 +24,7 @@ class PositionController {
   async show(req, res) {
     try {
       const { id } = req.params;
-      const position = await Position.findByPk(id);
+      const position = await PositionService.findById(id);
 
       if (!position) {
         res.status(404).json({ message: "Função não econtrada." });
@@ -41,18 +41,13 @@ class PositionController {
       const { id } = req.params;
       const { name, salary } = req.body;
 
-      const position = await Position.findByPk(id);
+      const updated = await PositionService.update(id, { name, salary });
 
-      if (!position) {
+      if (!updated) {
         res.status(404).json({ message: "Função não econtrada." });
       }
 
-      position.name = name;
-      position.salary = salary;
-
-      await position.save();
-
-      res.json(position);
+      res.json(updated);
     } catch (error) {
       res.status(500).json({ message: "Erro ao atualizar função. " + error });
     }
@@ -62,17 +57,15 @@ class PositionController {
     try {
       const { id } = req.params;
 
-      const position = await Position.findByPk(id);
+      const deleted = await PositionService.delete(id);
 
-      if (!position) {
+      if (!deleted) {
         res.status(404).json({ message: "Função não encontrada." });
       }
 
-      await position.destroy();
-
       res.status(404).json({ message: "Função deletada com sucesso!." });
     } catch (error) {
-      res.status(500).json({ message: "Erro ao atualizar função. " + error });
+      res.status(500).json({ message: "Erro ao deletar função. " + error });
     }
   }
 }
