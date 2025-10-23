@@ -1,10 +1,13 @@
 // # inicializa o express e usa as rotas
 import express from "express";
-import routes from "./routes/routes.js";
+import teste from "./routes/routes.js";
+import PositionRoutes from "./routes/positionRoutes.js";
 
 const app = express();
-
 app.use(express.json());
-app.use("/api", routes);
+
+app.use("/api", teste);
+
+app.use(PositionRoutes);
 
 export default app;

@@ -1,9 +1,9 @@
 import express from "express";
 
-const routes = express.Router();
+const router = express.Router();
 
-routes.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.send("Rota configurada com sucesso." );
 });
 
-export default routes;
+export default router;
