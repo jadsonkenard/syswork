@@ -1,5 +1,6 @@
 import Departament from "../models/Departament.js";
 import Position from "../models/Position.js";
+import Ticket from "../models/Ticket.js";
 
 class DepartamentService {
   async getAll() {
@@ -16,7 +17,7 @@ class DepartamentService {
     const positionExist = await Position.findByPk(data.position_id);
 
     if (!positionExist) {
-      throw new Error("Esta função não existe.");
+      throw new Error("O ID da função que você tentou enviar não existe.");
     }
 
     if (data.name == "") {
@@ -98,6 +99,32 @@ class DepartamentService {
 
     await departament.destroy();
     return { message: "Setor deletado com sucesso!." };
+  }
+
+  //BUSCA OS CHAMADOS SOLICITADOS POR SETOR
+  async getTicketRequestedDepartment(id) {
+    const departament = await Departament.findByPk(id, {
+      include: [{ model: Ticket, as: "tickets_requested" }],
+    });
+
+    if (!departament) {
+      throw new Error("Setor não encontrado");
+    }
+
+    return departament;
+  }
+
+  //BUSCA OS CHAMADOS RECEBIDOS (SETOR EXECUTANTE)
+  async getTicketExecutorDepartment(id) {
+    const departament = await Departament.findByPk(id, {
+      include: [{ model: Ticket, as: "tickets_executed" }],
+    });
+
+    if (!departament) {
+      throw new Error("Setor não encontrado");
+    }
+
+    return departament;
   }
 }
 

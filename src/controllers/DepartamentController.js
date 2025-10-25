@@ -54,9 +54,35 @@ class DepartamentController {
     try {
       const { id } = req.params;
 
-      const deleted = await DepartamentService.delete(id)
+      const deleted = await DepartamentService.delete(id);
 
-      res.status(200).json(deleted)
+      res.status(200).json(deleted);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  //BUSCA OS CHAMADOS SOLICITADOS POR SETOR
+  async getTicketRequestedDepartment(req, res) {
+    try {
+      const { id } = req.params;
+
+      const tickets = DepartamentService.getTicketRequestedDepartment(id);
+
+      res.json((await tickets).toJSON());
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  //BUSCA OS CHAMADOS RECEBIDOS (SETOR EXECUTANTE)
+  async getTicketExecutorDepartment(req, res) {
+    try {
+      const { id } = req.params;
+
+      const tickets = DepartamentService.getTicketExecutorDepartment(id);
+
+      res.json((await tickets).toJSON());
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
