@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
+import Departament from "./Departament.js";
 
 const Ticket = sequelize.define("Ticket", {
   id: {
@@ -16,14 +17,21 @@ const Ticket = sequelize.define("Ticket", {
     type: DataTypes.STRING(1000),
     allowNull: false,
   },
-  departament_id: {
+  requester_department_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "departaments",
+      model: Departament,
       key: "id",
     },
-    field: "departament_id",
+  },
+  executor_department_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Departament,
+      key: "id",
+    },
   },
   status: {
     type: DataTypes.ENUM("open", "in progress", "done"),
