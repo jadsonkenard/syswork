@@ -21,7 +21,7 @@ class PositionController {
     }
   }
 
-  async show(req, res) {
+  async findById(req, res) {
     try {
       const { id } = req.params;
       const position = await PositionService.findById(id);
@@ -39,7 +39,7 @@ class PositionController {
 
       const updated = await PositionService.update(id, { name, salary });
 
-      res.json(updated);
+      res.status(200).json(updated);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

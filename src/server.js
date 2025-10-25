@@ -1,10 +1,8 @@
 // # ESTE ARQUIVO INICIALIZA A API
 import app from "./app.js";
 import sequelize from "./config/database.js";
-import User from "./models/User.js";
-import Position from "./models/Position.js";
-import Departament from "./models/Departament.js";
-import Ticket from "./models/Ticket.js";
+import "./models/associations.js"
+
 
 const PORT = process.env.PORT;
 

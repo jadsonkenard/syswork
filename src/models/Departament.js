@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
+import Position from "./Position.js";
 
 const Departament = sequelize.define("Departament", {
   id: {
@@ -14,12 +15,11 @@ const Departament = sequelize.define("Departament", {
   },
   position_id: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     references: {
-      model: "positions",
+      model: Position,
       key: "id",
     },
-    field: "position_id",
   },
 });
 

@@ -14,7 +14,7 @@ const Position = sequelize.define("Position", {
   },
   salary: {
     type: DataTypes.DECIMAL,
-    allowNull: true,
+    allowNull: false,
   },
 });
 

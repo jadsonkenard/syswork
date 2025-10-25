@@ -41,23 +41,44 @@ class PositionService {
       throw new Error("Função não encontrada.");
     }
 
+    const dataToUpdate = {};
+    let changesDetected = false;
+
+    if (data.name !== undefined) {
+      const newName = String(data.name).trim();
+      const currentName = position.name.trim();
+
+      if (newName !== currentName) {
+        dataToUpdate.name = newName;
+        changesDetected = true;
+      }
+    }
+
     if (data.name == "") {
-      throw new Error("O nome da função não pode ser vazio.");
+      throw new Error("O nome não pode ser vazio.");
     }
 
-    if (!data.name) {
-      throw new Error("O nome da função precisa ser informado.");
+    if (data.salary !== undefined) {
+      const newSalary = Number(data.salary);
+      const currentSalary = Number(position.salary);
+
+      if (newSalary !== currentSalary) {
+        dataToUpdate.salary = newSalary;
+        changesDetected = true;
+      }
     }
 
-    if (data.salary <= 0) {
-      throw new Error("O salario não poder ser 0 ou negativo");
+    if (data.salary === 0) {
+      throw new Error("O salário não pode ser 0");
     }
 
-    if (!data.salary) {
-      throw new Error("O salário precisa ser preenchido.");
+    if (!changesDetected) {
+      throw new Error(
+        "Nenhuma alteração detectada. Os valores enviados são iguais aos atuais."
+      );
     }
 
-    await Position.update(data, { where: { id } });
+    await Position.update(dataToUpdate, { where: { id } });
     return Position.findByPk(id);
   }
 
