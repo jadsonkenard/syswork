@@ -1,8 +1,11 @@
 import Ticket from "../models/Ticket.js";
-import Departament from "../models/Departament.js";
 
 class TicketService {
-  async getAll() {}
+  async getAll() {
+    const tickets = await Ticket.findAll();
+
+    return tickets;
+  }
 
   async store(data) {
     await Ticket.create(data);
