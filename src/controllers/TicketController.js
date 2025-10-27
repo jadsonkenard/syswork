@@ -45,6 +45,32 @@ class TicketController {
       res.status(400).json({ message: error.message });
     }
   }
+
+  async update(req, res) {
+    try {
+      const { id } = req.params;
+      const {
+        title,
+        description,
+        requester_department_id,
+        executor_department_id,
+        status,
+      } = req.body;
+
+      const updated = await TicketService.update(id, {
+        title,
+        description,
+        requester_department_id,
+        executor_department_id,
+        status,
+      });
+
+      console.log(updated)
+      res.status(200).json(updated);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
 }
 
 export default new TicketController();

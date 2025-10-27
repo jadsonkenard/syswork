@@ -6,5 +6,6 @@ const router = express.Router();
 router.get("/ticket", TicketController.getAll);
 router.post("/ticket", TicketController.store);
 router.get("/ticket/:id", TicketController.findById);
+router.put("/ticket/:id", TicketController.update);
 
 export default router;
