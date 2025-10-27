@@ -132,6 +132,7 @@ class TicketService {
         "O ID do departamento solicitante que você está tentado enviar não existe."
       );
     }
+
     if (!executorDepartmentIdExists) {
       throw new Error(
         "O ID do departamento executante que você está tentado enviar não existe."
@@ -157,6 +158,26 @@ class TicketService {
     }
 
     await Ticket.update(dataToUpdate, { where: { id } });
+    return Ticket.findByPk(id);
+  }
+
+  //ATLUALIZA STATUS DE UM CHAMADO
+  async updateStatus(id, data) {
+    const ticket = await Ticket.findByPk(id);
+
+    if (!ticket) {
+      throw new Error("Chamado não encontrado.");
+    }
+
+    const validStatus = ["open", "in progress", "done"];
+
+    if (data.status && !validStatus.includes(data.status)) {
+      throw new Error(
+        "Status inválido. Valores permitidos: Aberto, Em execução, Concluído."
+      );
+    }
+
+    await Ticket.update(data, { where: { id } });
     return Ticket.findByPk(id);
   }
 }

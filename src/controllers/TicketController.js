@@ -65,7 +65,19 @@ class TicketController {
         status,
       });
 
-      console.log(updated)
+      res.status(200).json(updated);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  async updateStatus(req, res) {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+
+      const updated = await TicketService.updateStatus(id, { status });
+
       res.status(200).json(updated);
     } catch (error) {
       res.status(400).json({ message: error.message });
