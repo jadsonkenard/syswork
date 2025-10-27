@@ -180,6 +180,17 @@ class TicketService {
     await Ticket.update(data, { where: { id } });
     return Ticket.findByPk(id);
   }
+
+  async delete(id) {
+    const ticket = await Ticket.findByPk(id);
+
+    if (!ticket) {
+      throw new Error("Chamado não encontrado.");
+    }
+
+    await ticket.destroy();
+    return { message: "Chamado deletado com sucesso." };
+  }
 }
 
 export default new TicketService();

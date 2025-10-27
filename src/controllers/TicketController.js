@@ -83,6 +83,18 @@ class TicketController {
       res.status(400).json({ message: error.message });
     }
   }
+
+  async delete(req, res) {
+    try {
+      const { id } = req.params;
+
+      const deleteTicket = await TicketService.delete(id);
+
+      res.status(200).json(deleteTicket);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
 }
 
 export default new TicketController();
