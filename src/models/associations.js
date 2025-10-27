@@ -1,18 +1,21 @@
 import Position from "./Position.js";
 import Department from "./Department.js";
 import Ticket from "./Ticket.js";
+import User from "./User.js";
 
-// Uma função (Position) pode ter vários setores
-Position.hasMany(Department, {
+// Uma função pode ter vários setores
+Position.belongsTo(Department, {
   foreignKey: "position_id",
-  as: "departaments",
+  as: "departments_position",
 });
 
 // Um setor pertence a uma função
 Department.belongsTo(Position, {
   foreignKey: "position_id",
-  as: "position",
+  as: "position_department",
 });
+
+//<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // Um setor pode solicitar vários tickets
 Department.hasMany(Ticket, {
@@ -38,4 +41,30 @@ Ticket.belongsTo(Department, {
   as: "executor_department",
 });
 
-export { Position, Department, Ticket };
+//<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+//Um usuário só pode ter uma função
+User.belongsTo(Position, {
+  foreignKey: "position_id",
+  as: "position_user",
+});
+
+//Uma função pode ter vários usuários
+Position.hasMany(User, {
+  foreignKey: "position_id",
+  as: "position_users",
+});
+
+//Um usuário só pode pertencer a um setor
+User.belongsTo(Department, {
+  foreignKey: "departament_id",
+  as: "department_user",
+});
+
+//Um departamento pode ter vários usuários
+Department.hasMany(User, {
+  foreignKey: "departament_id",
+  as: "department_users",
+});
+
+export { User, Position, Department, Ticket };

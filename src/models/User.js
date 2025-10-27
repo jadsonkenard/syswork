@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
+import Department from "./Department.js";
+import Position from "./Position.js";
 
 const User = sequelize.define("User", {
   id: {
@@ -44,19 +46,22 @@ const User = sequelize.define("User", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "positions",
+      model: Department,
       key: "id",
     },
-    field: "position_id",
   },
   departament_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "departaments",
+      model: Position,
       key: "id",
     },
-    field: "departament_id",
+  },
+  status: {
+    type: DataTypes.ENUM("active", "inactive"),
+    allowNull: false,
+    defaultValue: "active",
   },
 });
 

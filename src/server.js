@@ -11,7 +11,7 @@ async function startServer() {
     await sequelize.authenticate(); //Conexão banco
     console.log("Banco de dados conecado.");
 
-    await sequelize.sync({ alter: false });
+    await sequelize.sync({ alter: false, force: true});
     console.log("Tabelas sincronizadas com o banco!");
 
     app.listen(PORT, () => {
