@@ -1,4 +1,6 @@
 import Position from "../models/Position.js";
+import Departaments from "../models/Departament.js";
+import { Op } from "sequelize";
 
 class PositionService {
   async getAll() {
@@ -87,6 +89,19 @@ class PositionService {
 
     if (!position) {
       throw new Error("Função não encontrada.");
+    }
+
+    //VERFICA SE EXISTE DEPARTAMENTO VINCULADO A FUNÇÃO A SER DELETADA
+    const departamens = await Departaments.findOne({
+      where: {
+        [Op.or]: [{ position_id: id }],
+      },
+    });
+
+    if (departamens) {
+      throw new Error(
+        "Não foi possível excluir esta função. Esta função possui setores associados."
+      );
     }
 
     await position.destroy();
