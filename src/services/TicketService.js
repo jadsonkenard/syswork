@@ -11,6 +11,16 @@ class TicketService {
     await Ticket.create(data);
     return { message: "Chamado criado com sucesso." };
   }
+
+  async findById(id) {
+    const ticket = await Ticket.findByPk(id);
+
+    if (!ticket) {
+      throw new Error("Chamado não encontrad0.");
+    }
+
+    return ticket;
+  }
 }
 
 export default new TicketService();

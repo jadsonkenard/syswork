@@ -10,6 +10,7 @@ class TicketController {
       res.status(400).json({ message: error.message });
     }
   }
+
   async store(req, res) {
     try {
       const {
@@ -29,6 +30,17 @@ class TicketController {
       });
 
       res.status(201).json(ticket);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  async findById(req, res) {
+    try {
+      const { id } = req.params;
+      const ticket = await TicketService.findById(id);
+
+      res.status(200).json(ticket);
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
