@@ -1,9 +1,9 @@
-import DepartamentService from "../services/DepartamentService.js";
+import DepartmentService from "../services/DepartmentService.js";
 
 class DepartamentController {
   async getAll(req, res) {
     try {
-      const departament = await DepartamentService.getAll();
+      const departament = await DepartmentService.getAll();
 
       res.status(200).json(departament);
     } catch (error) {
@@ -15,7 +15,7 @@ class DepartamentController {
     try {
       const { name, position_id } = req.body;
 
-      const departament = await DepartamentService.store({ name, position_id });
+      const departament = await DepartmentService.store({ name, position_id });
 
       res.status(201).json(departament);
     } catch (error) {
@@ -26,7 +26,7 @@ class DepartamentController {
   async findById(req, res) {
     try {
       const { id } = req.params;
-      const departament = await DepartamentService.findById(id);
+      const departament = await DepartmentService.findById(id);
 
       res.status(200).json(departament);
     } catch (error) {
@@ -39,7 +39,7 @@ class DepartamentController {
       const { id } = req.params;
       const { name, position_id } = req.body;
 
-      const updated = await DepartamentService.update(id, {
+      const updated = await DepartmentService.update(id, {
         name,
         position_id,
       });
@@ -54,7 +54,7 @@ class DepartamentController {
     try {
       const { id } = req.params;
 
-      const deleted = await DepartamentService.delete(id);
+      const deleted = await DepartmentService.delete(id);
 
       res.status(200).json(deleted);
     } catch (error) {
@@ -67,7 +67,7 @@ class DepartamentController {
     try {
       const { id } = req.params;
 
-      const tickets = DepartamentService.getTicketRequestedDepartment(id);
+      const tickets = DepartmentService.getTicketRequestedDepartment(id);
 
       res.json((await tickets).toJSON());
     } catch (error) {
@@ -80,7 +80,7 @@ class DepartamentController {
     try {
       const { id } = req.params;
 
-      const tickets = DepartamentService.getTicketExecutorDepartment(id);
+      const tickets = DepartmentService.getTicketExecutorDepartment(id);
 
       res.json((await tickets).toJSON());
     } catch (error) {

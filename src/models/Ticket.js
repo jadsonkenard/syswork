@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
-import Departament from "./Departament.js";
+import Department from "./Department.js";
 
 const Ticket = sequelize.define("Ticket", {
   id: {
@@ -21,7 +21,7 @@ const Ticket = sequelize.define("Ticket", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: Departament,
+      model: Department,
       key: "id",
     },
   },
@@ -29,7 +29,7 @@ const Ticket = sequelize.define("Ticket", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: Departament,
+      model: Department,
       key: "id",
     },
   },

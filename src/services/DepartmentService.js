@@ -1,16 +1,16 @@
-import Departament from "../models/Departament.js";
+import Department from "../models/Department.js";
 import Position from "../models/Position.js";
 import Ticket from "../models/Ticket.js";
 
-class DepartamentService {
+class DepartmentService {
   async getAll() {
-    const departament = await Departament.findAll();
+    const department = await Department.findAll();
 
-    if (!departament) throw new Error("Ocorreu um erro ao buscar setores.");
+    if (!department) throw new Error("Ocorreu um erro ao buscar setores.");
 
-    if (departament == 0) throw new Error("Não foram encontrados setores.");
+    if (department == 0) throw new Error("Não foram encontrados setores.");
 
-    return departament;
+    return department;
   }
 
   async store(data) {
@@ -32,25 +32,25 @@ class DepartamentService {
       throw new Error("O ID da função para este setor precisa ser informado.");
     }
 
-    await Departament.create(data);
+    await Department.create(data);
     return { message: "Setor criado com sucesso." };
   }
 
   async findById(id) {
-    const departament = await Departament.findByPk(id);
+    const department = await Department.findByPk(id);
 
-    if (!departament) {
-      throw new Error("Função não encontrada.");
+    if (!department) {
+      throw new Error("Setor não encontrado.");
     }
 
-    return departament;
+    return department;
   }
 
   async update(id, data) {
-    const departament = await Departament.findByPk(id);
+    const department = await Department.findByPk(id);
     const positionId = await Position.findByPk(data.position_id);
 
-    if (!departament) {
+    if (!department) {
       throw new Error("Setor não encontrado.");
     }
 
@@ -59,7 +59,7 @@ class DepartamentService {
 
     if (data.name !== undefined) {
       const newName = String(data.name).trim();
-      const currentName = departament.name.trim();
+      const currentName = department.name.trim();
 
       if (newName !== currentName) {
         dataToUpdate.name = newName;
@@ -68,17 +68,17 @@ class DepartamentService {
     }
 
     if (data.position_id !== undefined) {
+      if (!positionId) {
+        throw new Error("O ID da função que você tentou enviar não existe.");
+      }
+
       const newPositionId = Number(data.position_id);
-      const currentPositionId = departament.position_id;
+      const currentPositionId = department.position_id;
 
       if (newPositionId !== currentPositionId) {
         dataToUpdate.position_id = newPositionId;
         changesDetected = true;
       }
-    }
-
-    if (!positionId) {
-      throw new Error("O ID da função que você tentou enviar não existe.");
     }
 
     if (!changesDetected) {
@@ -87,45 +87,45 @@ class DepartamentService {
       );
     }
 
-    await Departament.update(dataToUpdate, { where: { id } });
-    return Departament.findByPk(id);
+    await Department.update(dataToUpdate, { where: { id } });
+    return Department.findByPk(id);
   }
 
   async delete(id) {
-    const departament = await Departament.findByPk(id);
-    if (!departament) {
+    const department = await Department.findByPk(id);
+    if (!department) {
       throw new Error("Setor não encontrado.");
     }
 
-    await departament.destroy();
+    await department.destroy();
     return { message: "Setor deletado com sucesso!." };
   }
 
   //BUSCA OS CHAMADOS SOLICITADOS POR SETOR
   async getTicketRequestedDepartment(id) {
-    const departament = await Departament.findByPk(id, {
+    const department = await Department.findByPk(id, {
       include: [{ model: Ticket, as: "tickets_requested" }],
     });
 
-    if (!departament) {
+    if (!department) {
       throw new Error("Setor não encontrado");
     }
 
-    return departament;
+    return department;
   }
 
   //BUSCA OS CHAMADOS RECEBIDOS (SETOR EXECUTANTE)
   async getTicketExecutorDepartment(id) {
-    const departament = await Departament.findByPk(id, {
+    const department = await Department.findByPk(id, {
       include: [{ model: Ticket, as: "tickets_executed" }],
     });
 
-    if (!departament) {
+    if (!department) {
       throw new Error("Setor não encontrado");
     }
 
-    return departament;
+    return department;
   }
 }
 
-export default new DepartamentService();
+export default new DepartmentService();

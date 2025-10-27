@@ -1,18 +1,22 @@
 import Ticket from "../models/Ticket.js";
-import Departament from "../models/Departament.js";
+import Department from "../models/Department.js";
 
 class TicketService {
   async getAll() {
     const tickets = await Ticket.findAll();
 
+    if (tickets == 0) {
+      throw new Error("Não forma encontrados chamados.");
+    }
+
     return tickets;
   }
 
   async store(data) {
-    const requesterDepartmentIdExists = await Departament.findByPk(
+    const requesterDepartmentIdExists = await Department.findByPk(
       data.requester_department_id
     );
-    const executorDepartmentIdExists = await Departament.findByPk(
+    const executorDepartmentIdExists = await Department.findByPk(
       data.executor_department_id
     );
     if (!data.title) {
@@ -51,10 +55,10 @@ class TicketService {
   //ATUALIZA UM CHAMADO POR COMPLETO
   async update(id, data) {
     const ticket = await Ticket.findByPk(id);
-    const requesterDepartmentIdExists = await Departament.findByPk(
+    const requesterDepartmentIdExists = await Department.findByPk(
       data.requester_department_id
     );
-    const executorDepartmentIdExists = await Departament.findByPk(
+    const executorDepartmentIdExists = await Department.findByPk(
       data.executor_department_id
     );
 

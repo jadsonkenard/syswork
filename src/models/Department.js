@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 import Position from "./Position.js";
 
-const Departament = sequelize.define("Departament", {
+const Department = sequelize.define("Department", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -23,4 +23,4 @@ const Departament = sequelize.define("Departament", {
   },
 });
 
-export default Departament;
+export default Department;
