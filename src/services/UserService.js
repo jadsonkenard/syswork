@@ -5,6 +5,7 @@ import { validateCPF } from "../utils/validateCpf.js";
 import { validateFullName } from "../utils/validateFullName.js";
 import { validatePhone } from "../utils/validatePhone.js";
 import { validateUsername } from "../utils/validateUsername.js";
+import { validateEmail } from "../utils/validadeEmail.js";
 
 class UserService {
   async getAll() {
@@ -25,8 +26,9 @@ class UserService {
   //FULL_NAME - FEITO
   //CPF - FEITO
   //PHONE - FEITO
-  //USERNAME
-  //PASSWORD
+  //EMAIL -
+  //USERNAME - FEITO
+  //PASSWORD -
   //ROLE
   //POSITION_ID
   //DEPARTMENT_ID
@@ -46,10 +48,12 @@ class UserService {
       throw new Error("CPF já cadastrado.");
     }
 
-    // validatePhone(data.phone);
+    validatePhone(data.phone);
     if (existingPhone) {
       throw new Error("Telefone já cadastrado.");
     }
+
+    await validateEmail(data.email);
 
     await validateUsername(data.username);
 
