@@ -3,6 +3,7 @@ import Department from "../models/Department.js";
 import Position from "../models/Position.js";
 import { validateCPF } from "../utils/validateCpf.js";
 import { validateFullName } from "../utils/validateFullName.js";
+import { validatePhone } from "../utils/validatePhone.js";
 
 class UserService {
   async getAll() {
@@ -49,6 +50,13 @@ class UserService {
       throw new Error("CPF já cadastrado en outro usuário.");
     }
 
+    if (data.phone === null || data.phone === undefined) {
+      throw new Error("O telefone precisa ser informado.");
+    }
+
+    validatePhone(data.phone);
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     if (!position) {
       throw new Error("Esta função não existe.");
     }
