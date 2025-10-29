@@ -4,6 +4,7 @@ import Position from "../models/Position.js";
 import { validateCPF } from "../utils/validateCpf.js";
 import { validateFullName } from "../utils/validateFullName.js";
 import { validatePhone } from "../utils/validatePhone.js";
+import { validateUsername } from "../utils/validateUsername.js";
 
 class UserService {
   async getAll() {
@@ -23,7 +24,7 @@ class UserService {
   //>>>>>VALIDAÇÃO DO USUÁRIO<<<<<<
   //FULL_NAME - FEITO
   //CPF - FEITO
-  //PHONE
+  //PHONE - FEITO
   //USERNAME
   //PASSWORD
   //ROLE
@@ -45,10 +46,12 @@ class UserService {
       throw new Error("CPF já cadastrado.");
     }
 
-    validatePhone(data.phone);
+    // validatePhone(data.phone);
     if (existingPhone) {
       throw new Error("Telefone já cadastrado.");
     }
+
+    await validateUsername(data.username);
 
     if (!position) {
       throw new Error("Esta função não existe.");
