@@ -1,4 +1,8 @@
 export function validateFullName(fullName) {
+  if (fullName === null || fullName === undefined) {
+    throw new Error("O nome precisa ser informado.");
+  }
+
   if (typeof fullName === "number") {
     throw new Error("Nome não pode ter números.");
   }

@@ -1,14 +1,14 @@
 export function validateCPF(cpf) {
-  if (!cpf) return false;
+  if (!cpf) throw new Error("O CPF precisa ser informado.");
 
   // Remove caracteres não numéricos
   cpf = cpf.replace(/[^\d]+/g, "");
 
   // CPF precisa ter 11 dígitos
-  if (cpf.length !== 11) return false;
+  if (cpf.length !== 11) throw new Error("O CPF precisa ter 11 dígitos.");
 
   // Rejeita CPFs com todos os dígitos iguais
-  if (/^(\d)\1+$/.test(cpf)) return false;
+  if (/^(\d)\1+$/.test(cpf)) throw new Error("CPF inválido.");
 
   // Validação dos dígitos verificadores
   let soma = 0;
@@ -18,7 +18,7 @@ export function validateCPF(cpf) {
 
   let resto = 11 - (soma % 11);
   if (resto === 10 || resto === 11) resto = 0;
-  if (resto !== parseInt(cpf.charAt(9))) return false;
+  if (resto !== parseInt(cpf.charAt(9))) throw new Error("CPF inválido.");
 
   soma = 0;
   for (let i = 0; i < 10; i++) {
@@ -27,7 +27,7 @@ export function validateCPF(cpf) {
 
   resto = 11 - (soma % 11);
   if (resto === 10 || resto === 11) resto = 0;
-  if (resto !== parseInt(cpf.charAt(10))) return false;
+  if (resto !== parseInt(cpf.charAt(10))) throw new Error("CPF inválido.");
 
   return true;
 }

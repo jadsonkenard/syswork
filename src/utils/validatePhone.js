@@ -1,4 +1,7 @@
 export function validatePhone(phone) {
+  if (phone === null || phone === undefined) {
+    throw new Error("O telefone precisa ser informado.");
+  }
   if (phone == "") {
     throw new Error("Telefone inválido.");
   }

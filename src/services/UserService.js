@@ -35,28 +35,21 @@ class UserService {
     const position = await Position.findByPk(data.position_id);
     const department = await Department.findByPk(data.department_id);
     const existingCPF = await User.findOne({ where: { cpf: data.cpf } });
-
-    if (data.full_name === null || data.full_name === undefined) {
-      throw new Error("O nome precisa ser informado.");
-    }
+    const existingPhone = await User.findOne({ where: { phone: data.phone } });
 
     validateFullName(data.full_name);
 
-    if (!validateCPF(data.cpf)) {
-      throw new Error("CPF inválido.");
-    }
+    if (validateCPF(data.cpf));
 
     if (existingCPF) {
-      throw new Error("CPF já cadastrado en outro usuário.");
-    }
-
-    if (data.phone === null || data.phone === undefined) {
-      throw new Error("O telefone precisa ser informado.");
+      throw new Error("CPF já cadastrado.");
     }
 
     validatePhone(data.phone);
+    if (existingPhone) {
+      throw new Error("Telefone já cadastrado.");
+    }
 
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     if (!position) {
       throw new Error("Esta função não existe.");
     }
