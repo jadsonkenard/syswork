@@ -50,7 +50,7 @@ const User = sequelize.define("User", {
       key: "id",
     },
   },
-  departament_id: {
+  department_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {

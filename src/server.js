@@ -1,8 +1,7 @@
 // # ESTE ARQUIVO INICIALIZA A API
 import app from "./app.js";
 import sequelize from "./config/database.js";
-import "./models/associations.js"
-
+import "./models/associations.js";
 
 const PORT = process.env.PORT;
 
@@ -11,7 +10,7 @@ async function startServer() {
     await sequelize.authenticate(); //Conexão banco
     console.log("Banco de dados conecado.");
 
-    await sequelize.sync({ alter: false, force: true });
+    await sequelize.sync({ alter: false });
     console.log("Tabelas sincronizadas com o banco!");
 
     app.listen(PORT, () => {

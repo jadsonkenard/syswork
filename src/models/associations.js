@@ -57,13 +57,13 @@ Position.hasMany(User, {
 
 //Um usuário só pode pertencer a um setor
 User.belongsTo(Department, {
-  foreignKey: "departament_id",
+  foreignKey: "department_id",
   as: "department_user",
 });
 
 //Um departamento pode ter vários usuários
 Department.hasMany(User, {
-  foreignKey: "departament_id",
+  foreignKey: "department_id",
   as: "department_users",
 });
 
