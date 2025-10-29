@@ -26,7 +26,7 @@ class UserService {
   //FULL_NAME - FEITO
   //CPF - FEITO
   //PHONE - FEITO
-  //EMAIL -
+  //EMAIL - FEITO
   //USERNAME - FEITO
   //PASSWORD -
   //ROLE
@@ -37,21 +37,12 @@ class UserService {
   async store(data) {
     const position = await Position.findByPk(data.position_id);
     const department = await Department.findByPk(data.department_id);
-    const existingCPF = await User.findOne({ where: { cpf: data.cpf } });
-    const existingPhone = await User.findOne({ where: { phone: data.phone } });
 
     validateFullName(data.full_name);
 
-    if (validateCPF(data.cpf));
+    if (await validateCPF(data.cpf));
 
-    if (existingCPF) {
-      throw new Error("CPF já cadastrado.");
-    }
-
-    validatePhone(data.phone);
-    if (existingPhone) {
-      throw new Error("Telefone já cadastrado.");
-    }
+    await validatePhone(data.phone);
 
     await validateEmail(data.email);
 

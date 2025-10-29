@@ -1,4 +1,6 @@
-export function validatePhone(phone) {
+import User from "../models/User.js";
+
+export async function validatePhone(phone) {
   if (phone === null || phone === undefined) {
     throw new Error("O telefone precisa ser informado.");
   }
@@ -14,5 +16,9 @@ export function validatePhone(phone) {
   if (phoneTreated && !/^[0-9]{10,11}$/.test(phoneTreated)) {
     throw new Error("Telefone deve ter 10 ou 11 dígitos");
   }
+
+  const existingPhone = await User.findOne({ where: { phone: phone } });
+  if (existingPhone) throw new Error("Telefone já cadastrado.ioo");
+
   return true;
 }

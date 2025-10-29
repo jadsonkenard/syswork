@@ -1,4 +1,6 @@
-export function validateCPF(cpf) {
+import User from "../models/User.js";
+
+export async function validateCPF(cpf) {
   if (!cpf) throw new Error("O CPF precisa ser informado.");
 
   // Remove caracteres não numéricos
@@ -28,6 +30,9 @@ export function validateCPF(cpf) {
   resto = 11 - (soma % 11);
   if (resto === 10 || resto === 11) resto = 0;
   if (resto !== parseInt(cpf.charAt(10))) throw new Error("CPF inválido.");
+
+  const existingCPF = await User.findOne({ where: { cpf: cpf } });
+  if (existingCPF) throw new Error("CPF já cadastrado.");
 
   return true;
 }
