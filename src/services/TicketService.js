@@ -90,6 +90,12 @@ class TicketService {
     }
 
     if (data.requester_department_id !== undefined) {
+      if (!requesterDepartmentIdExists) {
+        throw new Error(
+          "O ID do departamento solicitante que você está tentado enviar não existe."
+        );
+      }
+
       const newRequester_department_id = Number(data.requester_department_id);
       const currentRequester_department_id = Number(
         ticket.requester_department_id
@@ -102,6 +108,11 @@ class TicketService {
     }
 
     if (data.executor_department_id !== undefined) {
+      if (!executorDepartmentIdExists) {
+        throw new Error(
+          "O ID do departamento executante que você está tentado enviar não existe."
+        );
+      }
       const newExecutor_department_id = Number(data.executor_department_id);
       const currentExecutor_department_id = Number(
         ticket.executor_department_id
@@ -129,18 +140,6 @@ class TicketService {
 
     if (data.description == "") {
       throw new Error("A descrição não pode ser vazia.");
-    }
-
-    if (!requesterDepartmentIdExists) {
-      throw new Error(
-        "O ID do departamento solicitante que você está tentado enviar não existe."
-      );
-    }
-
-    if (!executorDepartmentIdExists) {
-      throw new Error(
-        "O ID do departamento executante que você está tentado enviar não existe."
-      );
     }
 
     const validStatus = ["open", "in progress", "done"];
@@ -171,6 +170,10 @@ class TicketService {
 
     if (!ticket) {
       throw new Error("Chamado não encontrado.");
+    }
+
+    if (data.status == "") {
+      throw new Error("O Status precisar ser informado.");
     }
 
     const validStatus = ["open", "in progress", "done"];

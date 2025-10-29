@@ -17,7 +17,9 @@ class DepartmentService {
     const positionExist = await Position.findByPk(data.position_id);
 
     if (!positionExist) {
-      throw new Error("O ID da função que você tentou enviar não existe.");
+      throw new Error(
+        "O ID da função que você tentou enviar não existe ou ainda não foi criada."
+      );
     }
 
     if (data.name == "") {

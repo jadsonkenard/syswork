@@ -3,13 +3,13 @@ import Department from "./Department.js";
 import Ticket from "./Ticket.js";
 import User from "./User.js";
 
-// Uma função pode ter vários setores
+// Uma função só pde ter um setor
 Position.belongsTo(Department, {
   foreignKey: "position_id",
   as: "departments_position",
 });
 
-// Um setor pertence a uma função
+// Um setor só pode ter uma função
 Department.belongsTo(Position, {
   foreignKey: "position_id",
   as: "position_department",
