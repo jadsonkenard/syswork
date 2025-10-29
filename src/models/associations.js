@@ -3,8 +3,8 @@ import Department from "./Department.js";
 import Ticket from "./Ticket.js";
 import User from "./User.js";
 
-// Uma função só pde ter um setor
-Position.belongsTo(Department, {
+// Uma função só pode ter um setor
+Position.hasMany(Department, {
   foreignKey: "position_id",
   as: "departments_position",
 });
