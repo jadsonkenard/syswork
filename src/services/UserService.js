@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import Department from "../models/Department.js";
 import Position from "../models/Position.js";
 import { validateCPF } from "../utils/validateCpf.js";
+import { validateFullName } from "../utils/validateFullName.js";
 
 class UserService {
   async getAll() {
@@ -18,6 +19,17 @@ class UserService {
     return users;
   }
 
+  //>>>>>VALIDAÇÃO DO USUÁRIO<<<<<<
+  //FULL_NAME - FEITO
+  //CPF - FEITO
+  //PHONE
+  //USERNAME
+  //PASSWORD
+  //ROLE
+  //POSITION_ID
+  //DEPARTMENT_ID
+  //STATUS
+
   async store(data) {
     const position = await Position.findByPk(data.position_id);
     const department = await Department.findByPk(data.department_id);
@@ -27,22 +39,7 @@ class UserService {
       throw new Error("O nome precisa ser informado.");
     }
 
-    if (typeof data.full_name === "number") {
-      throw new Error("Nome não pode ter números.");
-    }
-    const fullNameTreated = data.full_name.trim();
-
-    if (fullNameTreated == "") {
-      throw new Error("O nome não pode ser vazio.");
-    }
-
-    if (fullNameTreated.length <= 2) {
-      throw new Error("O nome precisa ter pelo menos 3 caracteres.");
-    }
-
-    if (/[0-9]/.test(fullNameTreated)) {
-      throw new Error("O nome não pode conter números.");
-    }
+    validateFullName(data.full_name);
 
     if (!validateCPF(data.cpf)) {
       throw new Error("CPF inválido.");
@@ -55,6 +52,7 @@ class UserService {
     if (!position) {
       throw new Error("Esta função não existe.");
     }
+
     if (!department) {
       throw new Error("Este setor não existe.");
     }
