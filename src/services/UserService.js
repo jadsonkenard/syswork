@@ -6,6 +6,7 @@ import { validateFullName } from "../utils/validateFullName.js";
 import { validatePhone } from "../utils/validatePhone.js";
 import { validateUsername } from "../utils/validateUsername.js";
 import { validateEmail } from "../utils/validadeEmail.js";
+import { validatePassword } from "../utils/validatePassword.js";
 
 class UserService {
   async getAll() {
@@ -28,7 +29,7 @@ class UserService {
   //PHONE - FEITO
   //EMAIL - FEITO
   //USERNAME - FEITO
-  //PASSWORD -
+  //PASSWORD - <<<<<<
   //ROLE
   //POSITION_ID
   //DEPARTMENT_ID
@@ -48,6 +49,8 @@ class UserService {
 
     await validateUsername(data.username);
 
+    const hashedPassword = await validatePassword(data.password);
+
     if (!position) {
       throw new Error("Esta função não existe.");
     }
@@ -56,7 +59,13 @@ class UserService {
       throw new Error("Este setor não existe.");
     }
 
-    await User.create(data);
+    data.password = hashedPassword;
+
+    await User.create({
+      ...data,
+      password: hashedPassword,
+    });
+    
     return { message: "Usuário criado com sucesso." };
   }
 }

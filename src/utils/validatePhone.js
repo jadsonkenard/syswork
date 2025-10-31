@@ -18,7 +18,7 @@ export async function validatePhone(phone) {
   }
 
   const existingPhone = await User.findOne({ where: { phone: phone } });
-  if (existingPhone) throw new Error("Telefone já cadastrado.ioo");
+  if (existingPhone) throw new Error("Telefone já cadastrado.");
 
   return true;
 }
