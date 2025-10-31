@@ -8,6 +8,7 @@ import { validateUsername } from "../utils/validateUsername.js";
 import { validateEmail } from "../utils/validadeEmail.js";
 import { validatePassword } from "../utils/validatePassword.js";
 import { validateRole } from "../utils/validateRole.js";
+import { validateStatus } from "../utils/validateStatus.js";
 
 class UserService {
   async getAll() {
@@ -23,18 +24,6 @@ class UserService {
 
     return users;
   }
-
-  //>>>>>VALIDAÇÃO DO USUÁRIO<<<<<<
-  //FULL_NAME - FEITO
-  //CPF - FEITO
-  //PHONE - FEITO
-  //EMAIL - FEITO
-  //USERNAME - FEITO
-  //PASSWORD - fEITO
-  //ROLE
-  //POSITION_ID
-  //DEPARTMENT_ID
-  //STATUS
 
   async store(data) {
     const position = await Position.findByPk(data.position_id);
@@ -54,6 +43,8 @@ class UserService {
 
     const role = validateRole(data.role);
 
+    const status = await validateStatus(data.status);
+
     if (!position) {
       throw new Error("Esta função não existe.");
     }
@@ -68,6 +59,7 @@ class UserService {
       ...data,
       password: hashedPassword,
       role: role,
+      status: status,
     });
 
     return { message: "Usuário criado com sucesso." };
