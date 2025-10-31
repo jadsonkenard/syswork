@@ -1,3 +1,4 @@
+import User from "../models/User.js";
 import UserService from "../services/UserService.js";
 
 class UserController {
@@ -49,6 +50,39 @@ class UserController {
       const { id } = req.params;
 
       const user = await UserService.findById(id);
+
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  async update(req, res) {
+    try {
+      const { id } = req.params;
+      const {
+        full_name,
+        cpf,
+        phone,
+        email,
+        username,
+        role,
+        position_id,
+        department_id,
+        status,
+      } = req.body;
+
+      const user = await UserService.update(id, {
+        full_name,
+        cpf,
+        phone,
+        email,
+        username,
+        role,
+        position_id,
+        department_id,
+        status,
+      });
 
       res.status(200).json(user);
     } catch (error) {
