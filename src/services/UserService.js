@@ -12,7 +12,9 @@ import { validateStatus } from "../utils/validateStatus.js";
 
 class UserService {
   async getAll() {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: { exclude: ["password"] },
+    });
 
     if (!users) {
       throw new Error("Não foram encontrados usuários.");
@@ -63,6 +65,18 @@ class UserService {
     });
 
     return { message: "Usuário criado com sucesso." };
+  }
+
+  async findById(id) {
+    const user = await User.findByPk(id, {
+      attributes: { exclude: ["password"] },
+    });
+
+    if (!user) {
+      throw new Error("Usuário não encontrado.");
+    }
+
+    return user;
   }
 }
 

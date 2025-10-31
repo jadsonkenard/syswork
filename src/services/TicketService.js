@@ -46,7 +46,7 @@ class TicketService {
     const ticket = await Ticket.findByPk(id);
 
     if (!ticket) {
-      throw new Error("Chamado não encontrad0.");
+      throw new Error("Chamado não encontrad.");
     }
 
     return ticket;
