@@ -2,14 +2,16 @@ import User from "../models/User.js";
 import Department from "../models/Department.js";
 import Position from "../models/Position.js";
 import bcrypt from "bcrypt";
-import { validateCPF } from "../utils/validateCpf.js";
-import { validateFullName } from "../utils/validateFullName.js";
-import { validatePhone } from "../utils/validatePhone.js";
-import { validateUsername } from "../utils/validateUsername.js";
-import { validateEmail } from "../utils/validadeEmail.js";
-import { validatePassword } from "../utils/validatePassword.js";
-import { validateRole } from "../utils/validateRole.js";
-import { validateStatus } from "../utils/validateStatus.js";
+import {
+  validateFullName,
+  validateCPF,
+  validatePhone,
+  validateEmail,
+  validateUsername,
+  validatePassword,
+  validateRole,
+  validateStatus,
+} from "../utils/validations.js";
 
 class UserService {
   async getAll() {
