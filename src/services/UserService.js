@@ -223,6 +223,15 @@ class UserService {
     await User.update(data, { where: { id } });
     return { message: "Senha atualizada com sucesso." };
   }
+
+  async delete(id) {
+    const user = await User.findByPk(id);
+
+    if (!user) throw new Error("Usuário não encontrado.");
+
+    await user.destroy();
+    return { message: "Usuário deletado com sucesso." };
+  }
 }
 
 export default new UserService();
