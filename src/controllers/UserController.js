@@ -89,6 +89,19 @@ class UserController {
       res.status(400).json({ message: error.message });
     }
   }
+
+  async updatePassword(req, res) {
+    try {
+      const { id } = req.params;
+      const { password } = req.body;
+
+      const updated = await UserService.updatePassword(id, { password });
+
+      res.status(200).json(updated);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
 }
 
 export default new UserController();

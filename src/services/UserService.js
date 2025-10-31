@@ -200,6 +200,27 @@ class UserService {
     await User.update(data, { where: { id } });
     return User.findByPk(id);
   }
+
+  async updatePassword(id, data) {
+    const user = await User.findByPk(id);
+
+    if (!user) throw new Error("Usuário não encontrado.");
+
+    if (data.password) {
+      const isSame = await bcrypt.compare(data.password, user.password);
+
+      if (isSame) {
+        throw new Error("A nova senha não pode ser igual à senha atual.");
+      }
+
+      data.password = await validatePassword(data.password);
+    } else {
+      delete data.password;
+    }
+
+    await User.update(data, { where: { id } });
+    return { message: "Senha atualizada com sucesso." };
+  }
 }
 
 export default new UserService();
