@@ -198,7 +198,9 @@ class UserService {
     }
 
     await User.update(data, { where: { id } });
-    return User.findByPk(id);
+    return User.findByPk(id, {
+      attributes: { exclude: "password" },
+    });
   }
 
   async updatePassword(id, data) {
