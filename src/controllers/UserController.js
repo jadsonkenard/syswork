@@ -113,6 +113,32 @@ class UserController {
       res.status(400).json({ message: error.message });
     }
   }
+
+  //BUSCA USUÁRIO POR FUNÇÃO
+  async getUserByPosition(req, res) {
+    try {
+      const { id } = req.params;
+
+      const users = UserService.getUserByPosition(id);
+
+      res.json((await users).toJSON());
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  //BUSCA USUÁRIO POR SETOR
+  async getUserByDepartment(req, res) {
+    try {
+      const { id } = req.params;
+
+      const users = UserService.getUserByDepartment(id);
+
+      res.json((await users).toJSON());
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
 }
 
 export default new UserController();

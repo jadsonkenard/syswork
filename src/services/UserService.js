@@ -234,6 +234,26 @@ class UserService {
     await user.destroy();
     return { message: "Usuário deletado com sucesso." };
   }
+
+  //BUSCA USUÁRIO POR FUNÇÃO
+  async getUserByPosition(id) {
+    const position = await Position.findByPk(id, {
+      include: [{ model: User, as: "position_users" }],
+    });
+
+    if (!position) {
+      throw new Error("Função não encontrada.");
+    }
+
+    if (!position.position_users || position.position_users.length === 0) {
+      throw new Error("Nenhum usuário vinculado a esta posição.");
+    }
+
+    return position
+  }
+
+  //BUSCA USUÁRIO POR SETOR
+  async getUserByDepartment(id) {}
 }
 
 export default new UserService();
