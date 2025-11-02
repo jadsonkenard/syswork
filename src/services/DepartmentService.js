@@ -113,6 +113,13 @@ class DepartmentService {
       throw new Error("Setor não encontrado");
     }
 
+    if (
+      !department.tickets_requested ||
+      department.tickets_requested.length === 0
+    ) {
+      throw new Error("Nenhum chamado aberto por este setor.");
+    }
+
     return department;
   }
 
@@ -124,6 +131,13 @@ class DepartmentService {
 
     if (!department) {
       throw new Error("Setor não encontrado");
+    }
+
+    if (
+      !department.tickets_executed ||
+      department.tickets_executed.length === 0
+    ) {
+      throw new Error("Nenhum chamado aberto para este setor.");
     }
 
     return department;
