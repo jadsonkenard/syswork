@@ -10,5 +10,6 @@ router.put("/users/:id/update", UserController.update);
 router.put("/users/:id/update/password", UserController.updatePassword);
 router.delete("/users/:id/delete", UserController.delete);
 router.get("/users/positions/:id", UserController.getUserByPosition);
+router.get("/users/department/:id", UserController.getUserByDepartment);
 
 export default router;

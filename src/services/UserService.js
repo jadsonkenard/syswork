@@ -249,11 +249,28 @@ class UserService {
       throw new Error("Nenhum usuário vinculado a esta posição.");
     }
 
-    return position
+    return position;
   }
 
   //BUSCA USUÁRIO POR SETOR
-  async getUserByDepartment(id) {}
+  async getUserByDepartment(id) {
+    const department = await Department.findByPk(id, {
+      include: [{ model: User, as: "department_users" }],
+    });
+
+    if (!department) {
+      throw new Error("Setor não encontrado.");
+    }
+
+    if (
+      !department.department_users ||
+      department.department_users.length === 0
+    ) {
+      throw new Error("Nenhum usuário vinculado a este setor.");
+    }
+
+    return department;
+  }
 }
 
 export default new UserService();
