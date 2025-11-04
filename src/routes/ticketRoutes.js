@@ -3,11 +3,11 @@ import TicketController from "../controllers/TicketController.js";
 
 const router = express.Router();
 
-router.get("/ticket", TicketController.getAll);
-router.post("/ticket", TicketController.store);
-router.get("/ticket/:id", TicketController.findById);
-router.put("/ticket/:id", TicketController.update);
-router.patch("/ticket/:id/status", TicketController.updateStatus);
-router.delete("/ticket/:id", TicketController.delete);
+router.get("/", TicketController.getAll);
+router.post("/", TicketController.store);
+router.get("/id", TicketController.findById);
+router.put("/:id", TicketController.update);
+router.patch("/:id/status", TicketController.updateStatus);
+router.delete("/:id", TicketController.delete);
 
 export default router;
