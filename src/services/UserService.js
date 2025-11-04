@@ -238,7 +238,13 @@ class UserService {
   //BUSCA USUÁRIO POR FUNÇÃO
   async getUserByPosition(id) {
     const position = await Position.findByPk(id, {
-      include: [{ model: User, as: "position_users" }],
+      include: [
+        {
+          model: User,
+          as: "position_users",
+          attributes: { exclude: ["password"] },
+        },
+      ],
     });
 
     if (!position) {
@@ -255,7 +261,13 @@ class UserService {
   //BUSCA USUÁRIO POR SETOR
   async getUserByDepartment(id) {
     const department = await Department.findByPk(id, {
-      include: [{ model: User, as: "department_users" }],
+      include: [
+        {
+          model: User,
+          as: "department_users",
+          attributes: { exclude: ["password"] },
+        },
+      ],
     });
 
     if (!department) {
