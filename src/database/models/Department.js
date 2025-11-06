@@ -1,26 +1,53 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../../config/database.js";
-import Position from "./Position.js";
+import { Model, DataTypes } from "sequelize";
 
-const Department = sequelize.define("Department", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  position_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: Position,
-      key: "id",
+export default (sequelize) => {
+  class Department extends Model {
+    static associate(models) {
+      this.belongsTo(models.Position, {
+        foreignKey: "position_id",
+        as: "position",
+      });
+
+      this.hasMany(models.User, {
+        foreignKey: "department_id",
+        as: "users",
+      });
+
+      this.hasMany(models.Ticket, {
+        foreignKey: "requester_department_id",
+        as: "tickets_requested",
+      });
+
+      this.hasMany(models.Ticket, {
+        foreignKey: "executor_department_id",
+        as: "tickets_executed",
+      });
+    }
+  }
+
+  Department.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      position_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
-  },
-});
-
-export default Department;
+    {
+      sequelize,
+      modelName: "Department",
+      tableName: "Departments",
+      timestamps: true,
+    }
+  );
+  return Department;
+};

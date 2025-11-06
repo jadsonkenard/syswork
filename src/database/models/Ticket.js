@@ -1,43 +1,58 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../../config/database.js";
-import Department from "./Department.js";
+import { Model, DataTypes } from "sequelize";
 
-const Ticket = sequelize.define("Ticket", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-  },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.STRING(1000),
-    allowNull: false,
-  },
-  requester_department_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: Department,
-      key: "id",
-    },
-  },
-  executor_department_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: Department,
-      key: "id",
-    },
-  },
-  status: {
-    type: DataTypes.ENUM("open", "in progress", "done"),
-    defaultValue: "open",
-    allowNull: false,
-  },
-});
+export default (sequelize) => {
+  class Ticket extends Model {
+    static associate(models) {
+      this.belongsTo(models.Department, {
+        foreignKey: "requester_department_id",
+        as: "requester_department",
+      });
 
-export default Ticket;
+      this.belongsTo(models.Department, {
+        foreignKey: "executor_department_id",
+        as: "executor_department",
+      });
+    }
+  }
+
+  Ticket.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: DataTypes.STRING(1000),
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.ENUM("open", "in progress", "done"),
+        defaultValue: "open",
+        allowNull: false,
+      },
+      requester_department_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      executor_department_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+    },
+
+    {
+      sequelize,
+      modelName: "Ticket",
+      tableName: "Tickets",
+      timestamps: true,
+    }
+  );
+
+  return Ticket;
+};
