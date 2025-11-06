@@ -1,5 +1,5 @@
-import Ticket from "../models/Ticket.js";
-import Department from "../models/Department.js";
+import Ticket from "../database/models/Ticket.js";
+import Department from "../database/models/Department.js";
 
 class TicketService {
   async getAll() {

@@ -6,9 +6,7 @@ dotenv.config();
 const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
 
 export function authenticateToken(req, res, next) {
-  console.log(ACCESS_SECRET)
   const authHeader = req.headers["authorization"];
-  console.log(authHeader)
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) return res.status(401).json({ message: "Token não fornecido." });

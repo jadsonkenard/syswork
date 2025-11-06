@@ -1,7 +1,7 @@
 // # ESTE ARQUIVO INICIALIZA A API
 import app from "./app.js";
 import sequelize from "./config/database.js";
-import "./models/associations.js";
+import "./database/associations.js";
 
 const PORT = process.env.PORT;
 

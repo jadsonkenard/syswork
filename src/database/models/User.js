@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
+import sequelize from "../../config/database.js";
 import Department from "./Department.js";
 import Position from "./Position.js";
 

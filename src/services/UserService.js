@@ -1,6 +1,6 @@
-import User from "../models/User.js";
-import Department from "../models/Department.js";
-import Position from "../models/Position.js";
+import User from "../database/models/User.js";
+import Department from "../database/models/Department.js";
+import Position from "../database/models/Position.js";
 import bcrypt from "bcrypt";
 import {
   validateFullName,

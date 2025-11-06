@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../database/models/User.js";
 
 export async function validatePhone(phone) {
   if (phone === null || phone === undefined) {

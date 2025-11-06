@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../database/models/User.js";
 
 export async function validateCPF(cpf) {
   if (!cpf) throw new Error("O CPF precisa ser informado.");

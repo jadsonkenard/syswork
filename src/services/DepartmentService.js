@@ -1,6 +1,6 @@
-import Department from "../models/Department.js";
-import Position from "../models/Position.js";
-import Ticket from "../models/Ticket.js";
+import Department from "../database/models/Department.js";
+import Position from "../database/models/Position.js";
+import Ticket from "../database/models/Ticket.js";
 
 class DepartmentService {
   async getAll() {

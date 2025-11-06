@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../database/models/User.js";
 
 export async function validateEmail(email) {
   if (email == "") throw new Error("O email precisa ser informado.");

@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../database/models/User.js";
 
 export async function validateUsername(username) {
   if (!username) throw new Error("O nome de usuário precisa ser informado.");

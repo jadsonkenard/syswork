@@ -1,7 +1,7 @@
-import Position from "./Position.js";
-import Department from "./Department.js";
-import Ticket from "./Ticket.js";
-import User from "./User.js";
+import Position from "../database/models/Position.js";
+import Department from "../database/models/Department.js";
+import Ticket from "../database/models/Ticket.js";
+import User from "../database/models/User.js";
 
 // Uma função só pode ter um setor
 Position.hasMany(Department, {
