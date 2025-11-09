@@ -1,6 +1,6 @@
 import db from "../database/models/index.js";
 
-const { Position } = db;
+const { Position, Department } = db;
 
 import { Op } from "sequelize";
 
@@ -94,7 +94,7 @@ class PositionService {
     }
 
     //VERFICA SE EXISTE DEPARTAMENTO VINCULADO A FUNÇÃO A SER DELETADA
-    const department = await Departments.findOne({
+    const department = await Department.findOne({
       where: {
         [Op.or]: [{ position_id: id }],
       },

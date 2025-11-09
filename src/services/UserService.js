@@ -242,7 +242,7 @@ class UserService {
       include: [
         {
           model: User,
-          as: "position_users",
+          as: "users",
           attributes: { exclude: ["password"] },
         },
       ],
@@ -252,7 +252,7 @@ class UserService {
       throw new Error("Função não encontrada.");
     }
 
-    if (!position.position_users || position.position_users.length === 0) {
+    if (!position.users || position.users.length === 0) {
       throw new Error("Nenhum usuário vinculado a esta posição.");
     }
 
@@ -265,7 +265,7 @@ class UserService {
       include: [
         {
           model: User,
-          as: "department_users",
+          as: "users",
           attributes: { exclude: ["password"] },
         },
       ],
@@ -276,8 +276,8 @@ class UserService {
     }
 
     if (
-      !department.department_users ||
-      department.department_users.length === 0
+      !department.users ||
+      department.users.length === 0
     ) {
       throw new Error("Nenhum usuário vinculado a este setor.");
     }
