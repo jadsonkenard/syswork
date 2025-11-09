@@ -1,5 +1,7 @@
-import Position from "../database/models/Position.js";
-import Departments from "../database/models/Department.js";
+import db from "../database/models/index.js";
+
+const { Position } = db;
+
 import { Op } from "sequelize";
 
 class PositionService {

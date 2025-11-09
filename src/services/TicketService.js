@@ -1,5 +1,6 @@
-import Ticket from "../database/models/Ticket.js";
-import Department from "../database/models/Department.js";
+import db from "../database/models/index.js";
+
+const { Ticket, Department } = db;
 
 class TicketService {
   async getAll() {

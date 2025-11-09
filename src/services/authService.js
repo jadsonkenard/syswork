@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import User from "../database/models/User.js";
+import db from "../database/models/index.js";
+
+const { User } = db;
 
 import dotenv from "dotenv";
 

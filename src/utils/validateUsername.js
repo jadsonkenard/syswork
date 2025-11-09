@@ -1,4 +1,6 @@
-import User from "../database/models/User.js";
+import db from "../database/models/index.js";
+
+const { User } = db;
 
 export async function validateUsername(username) {
   if (!username) throw new Error("O nome de usuário precisa ser informado.");

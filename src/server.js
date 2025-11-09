@@ -1,24 +1,18 @@
-// # ESTE ARQUIVO INICIALIZA A API
 import app from "./app.js";
-import sequelize from "./config/database.js";
-import "./database/associations.js";
+import db from "./database/models/index.js";
 
 const PORT = process.env.PORT;
 
 async function startServer() {
   try {
-    await sequelize.authenticate(); //Conexão banco
-    console.log("Banco de dados conecado.");
-
-    await sequelize.sync({ alter: false });
-    console.log("Tabelas sincronizadas com o banco!");
+    await db.sequelize.authenticate();
+    console.log("✅ Banco de dados conectado.");
 
     app.listen(PORT, () => {
-      //Inicia servidor
-      console.log("Servidor rodando na porta: " + PORT);
+      console.log(`🚀 Servidor rodando na porta ${PORT}`);
     });
   } catch (error) {
-    console.log("Erro ao conectar. " + error);
+    console.error("❌ Erro ao conectar ao banco:", error);
   }
 }
 

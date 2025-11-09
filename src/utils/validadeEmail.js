@@ -1,4 +1,6 @@
-import User from "../database/models/User.js";
+import db from "../database/models/index.js";
+
+const { User } = db;
 
 export async function validateEmail(email) {
   if (email == "") throw new Error("O email precisa ser informado.");
