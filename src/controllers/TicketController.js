@@ -18,7 +18,6 @@ class TicketController {
         description,
         requester_department_id,
         executor_department_id,
-        requester_user_id,
         status,
       } = req.body;
 
@@ -27,7 +26,7 @@ class TicketController {
         description,
         requester_department_id,
         executor_department_id,
-        requester_user_id,
+        requester_user_id: req.user.id,
         status,
       });
 
