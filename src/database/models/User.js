@@ -64,6 +64,11 @@ export default (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      status: {
+        type: DataTypes.ENUM("active", "inactive"),
+        defaultValue: "active",
+        allowNull: false,
+      },
     },
     {
       sequelize,
