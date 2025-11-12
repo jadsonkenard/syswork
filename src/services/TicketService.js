@@ -59,7 +59,7 @@ class TicketService {
     const ticket = await Ticket.findByPk(id);
 
     if (!ticket) {
-      throw new Error("Chamado não encontrad.");
+      throw new Error("Chamado não encontrado.");
     }
 
     return ticket;
@@ -216,6 +216,26 @@ class TicketService {
     if (tickets.length === 0) {
       throw new Error("Nenhum ticket encontrado para este usuário.");
     }
+
+    return tickets;
+  }
+
+  async getMyTickets(id) {
+    const tickets = await Ticket.findAll({
+      where: { requester_user_id: id },
+      include: [
+        {
+          model: User,
+          as: "requester_user",
+          attributes: ["id", "full_name", "email"],
+        },
+        // {
+        //   model: Department,
+        //   as: "executor_department",
+        //   attributes: ["id", "name"],
+        // },
+      ],
+    });
 
     return tickets;
   }

@@ -94,6 +94,16 @@ class TicketController {
       return res.status(400).json({ error: error.message });
     }
   }
+
+  async getMyTickets(req, res) {
+    try {
+      const tickets = await TicketService.getMyTickets(req.user.id);
+      res.status(200).json(tickets);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
   async delete(req, res) {
     try {
       const { id } = req.params;
