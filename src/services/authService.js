@@ -18,6 +18,7 @@ function generateTokens(user) {
     department_id: user.department_id,
     position_id: user.position_id,
     role: user.role,
+    status: user.status,
   };
 
   const accessToken = jwt.sign(payload, ACCESS_SECRET, {

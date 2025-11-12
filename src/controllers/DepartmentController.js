@@ -62,7 +62,7 @@ class DepartamentController {
     }
   }
 
-  //BUSCA OS CHAMADOS SOLICITADOS POR SETOR
+  //BUSCA OS CHAMADOS SOLICITADOS POR (SETOR SOLICITANTE)
   async getTicketRequestedDepartment(req, res) {
     try {
       const { id } = req.params;
@@ -88,16 +88,27 @@ class DepartamentController {
     }
   }
 
-  //BUSCA CHAMADOS DO MEU SETOR
+  //BUSCA CHAMADOS DIRECIONADOS PARA O MEU SETOR
   async getTicketsMyDepartment(req, res) {
     try {
-      const userId = req.user.id;
       const departmentId = req.user.department_id;
 
-      console.log(departmentId);
-      console.log(userId);
-
       const tickets = await DepartmentService.getTicketsMyDepartment(
+        departmentId
+      );
+
+      return res.json(tickets);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  //BUSCA CHAMADOS ABERTOS PELO MEU SETOR
+  async getTicketsToDepartment(req, res) {
+    try {
+      const departmentId = req.user.department_id;
+
+      const tickets = await DepartmentService.getTicketsToDepartment(
         departmentId
       );
 

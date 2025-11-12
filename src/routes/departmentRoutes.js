@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.get("/", DepartmentController.getAll);
 router.post("/", DepartmentController.store);
-router.get("/my", DepartmentController.getTicketsMyDepartment);
+router.get("/executor/my", DepartmentController.getTicketsMyDepartment);
+router.get("/requester/my", DepartmentController.getTicketsToDepartment);
 router.get("/:id", DepartmentController.findById);
 router.put("/:id", DepartmentController.update);
 router.delete("/:id", DepartmentController.delete);

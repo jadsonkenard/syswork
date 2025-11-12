@@ -143,7 +143,7 @@ class DepartmentService {
     return department;
   }
 
-  //BUSCA CHAMADOS DO MEU SETOR
+  //BUSCA CHAMADOS DIRECIONADOS PARA O MEU SETOR
   async getTicketsMyDepartment(id) {
     const tickets = await this.getTicketExecutorDepartment(id);
 
@@ -151,6 +151,16 @@ class DepartmentService {
       throw new Error("Não foram encontrados chamados.");
     }
 
+    return tickets;
+  }
+
+  //BUSCA CHAMADOS ABERTOS PELO MEU SETOR
+  async getTicketsToDepartment(id) {
+    const tickets = await this.getTicketRequestedDepartment(id);
+
+    if (!tickets || tickets.length === 0) {
+      throw new Error("Não foram encontrados chamados.");
+    }
     return tickets;
   }
 }
