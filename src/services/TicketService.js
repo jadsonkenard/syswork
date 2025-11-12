@@ -1,6 +1,6 @@
 import db from "../database/models/index.js";
 
-const { Ticket, Department } = db;
+const { Ticket, Department, User } = db;
 
 class TicketService {
   async getAll() {
@@ -20,6 +20,9 @@ class TicketService {
     const executorDepartmentIdExists = await Department.findByPk(
       data.executor_department_id
     );
+
+    const requesterUser = await User.findByPk(data.requester_user_id);
+
     if (!data.title) {
       throw new Error("O Título do chamado precisa ser informado.");
     }
@@ -28,15 +31,24 @@ class TicketService {
       throw new Error("A descrição do chamado precisa ser informado.");
     }
 
+    if (!data.requester_user_id) {
+      throw new Error("O usuário solicitante não enviado.");
+    }
+
     if (!requesterDepartmentIdExists) {
       throw new Error(
         "O ID do departamento solicitante que você está tentado enviar não existe."
       );
     }
+
     if (!executorDepartmentIdExists) {
       throw new Error(
         "O ID do departamento executante que você está tentado enviar não existe."
       );
+    }
+
+    if (!requesterUser) {
+      throw new Error("Usuário solicitante não existe.");
     }
 
     await Ticket.create(data);
@@ -187,6 +199,25 @@ class TicketService {
 
     await Ticket.update(data, { where: { id } });
     return Ticket.findByPk(id);
+  }
+
+  async getTicketByUser(id) {
+    const tickets = await Ticket.findAll({
+      where: { requester_user_id: id },
+      include: [
+        {
+          model: User,
+          as: "requester_user",
+          attributes: ["id", "full_name", "email"],
+        },
+      ],
+    });
+
+    if (tickets.length === 0) {
+      throw new Error("Nenhum ticket encontrado para este usuário.");
+    }
+
+    return tickets;
   }
 
   async delete(id) {

@@ -49,6 +49,14 @@ export default (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      requester_user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+      },
     },
 
     {

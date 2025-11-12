@@ -18,6 +18,7 @@ class TicketController {
         description,
         requester_department_id,
         executor_department_id,
+        requester_user_id,
         status,
       } = req.body;
 
@@ -26,6 +27,7 @@ class TicketController {
         description,
         requester_department_id,
         executor_department_id,
+        requester_user_id,
         status,
       });
 
@@ -84,6 +86,15 @@ class TicketController {
     }
   }
 
+  async getTicketByUser(req, res) {
+    try {
+      const { id } = req.params; // id do usuário
+      const tickets = await TicketService.getTicketByUser(id);
+      return res.status(200).json(tickets);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
   async delete(req, res) {
     try {
       const { id } = req.params;
