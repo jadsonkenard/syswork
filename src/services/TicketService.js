@@ -201,6 +201,7 @@ class TicketService {
     return Ticket.findByPk(id);
   }
 
+  //BUSCA CHAMADOS POR ID DO USUÁRIO (ROTA PARA ADMIN)
   async getTicketByUser(id) {
     const tickets = await Ticket.findAll({
       where: { requester_user_id: id },
@@ -220,6 +221,7 @@ class TicketService {
     return tickets;
   }
 
+  //BUSCA CHAMADOS PELO USUÁRIO LOGADO
   async getMyTickets(id) {
     const tickets = await Ticket.findAll({
       where: { requester_user_id: id },

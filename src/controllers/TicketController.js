@@ -85,6 +85,7 @@ class TicketController {
     }
   }
 
+  //BUSCA CHAMADOS POR ID DO USUÁRIO (ROTA PARA ADMIN)
   async getTicketByUser(req, res) {
     try {
       const { id } = req.params; // id do usuário
@@ -95,6 +96,7 @@ class TicketController {
     }
   }
 
+  //BUSCA CHAMADOS PELO USUÁRIO LOGADO
   async getMyTickets(req, res) {
     try {
       const tickets = await TicketService.getMyTickets(req.user.id);

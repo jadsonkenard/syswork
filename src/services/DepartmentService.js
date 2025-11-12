@@ -130,7 +130,7 @@ class DepartmentService {
     });
 
     if (!department) {
-      throw new Error("Setor não encontrado");
+      throw new Error("Setor não encontrado.");
     }
 
     if (
@@ -141,6 +141,17 @@ class DepartmentService {
     }
 
     return department;
+  }
+
+  //BUSCA CHAMADOS DO MEU SETOR
+  async getTicketsMyDepartment(id) {
+    const tickets = await this.getTicketExecutorDepartment(id);
+
+    if (!tickets || tickets.length === 0) {
+      throw new Error("Não foram encontrados chamados.");
+    }
+
+    return tickets;
   }
 }
 

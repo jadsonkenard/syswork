@@ -67,7 +67,7 @@ class DepartamentController {
     try {
       const { id } = req.params;
 
-      const tickets = DepartmentService.getTicketRequestedDepartment(id);
+      const tickets = await DepartmentService.getTicketRequestedDepartment(id);
 
       res.json((await tickets).toJSON());
     } catch (error) {
@@ -80,9 +80,28 @@ class DepartamentController {
     try {
       const { id } = req.params;
 
-      const tickets = DepartmentService.getTicketExecutorDepartment(id);
+      const tickets = await DepartmentService.getTicketExecutorDepartment(id);
 
-      res.json((await tickets).toJSON());
+      res.json(tickets.toJSON());
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  //BUSCA CHAMADOS DO MEU SETOR
+  async getTicketsMyDepartment(req, res) {
+    try {
+      const userId = req.user.id;
+      const departmentId = req.user.department_id;
+
+      console.log(departmentId);
+      console.log(userId);
+
+      const tickets = await DepartmentService.getTicketsMyDepartment(
+        departmentId
+      );
+
+      return res.json(tickets);
     } catch (error) {
       res.status(400).json({ message: error.message });
     }

@@ -12,7 +12,13 @@ const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 
 function generateTokens(user) {
-  const payload = { id: user.id, username: user.username };
+  const payload = {
+    id: user.id,
+    username: user.username,
+    department_id: user.department_id,
+    position_id: user.position_id,
+    role: user.role,
+  };
 
   const accessToken = jwt.sign(payload, ACCESS_SECRET, {
     expiresIn: process.env.JWT_ACCESS_EXPIRES || "15m",
