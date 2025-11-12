@@ -12,6 +12,11 @@ export default (sequelize) => {
         foreignKey: "executor_department_id",
         as: "executor_department",
       });
+
+      this.belongsTo(models.User, {
+        foreignKey: "requester_user_id",
+        as: "requester_user",
+      });
     }
   }
 
