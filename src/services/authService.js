@@ -37,6 +37,10 @@ export default {
     const user = await User.findOne({ where: { username } });
     if (!user) throw new Error("Usuário não encontrado.");
 
+    if (user.status === "inactive") {
+      throw new Error("Conta inativa. Consulte o administrador.");
+    }
+
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) throw new Error("Senha inválida.");
 
