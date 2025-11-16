@@ -5,6 +5,7 @@ import PositionRoutes from "./routes/positionRoutes.js";
 import DepartmentRoutes from "./routes/departmentRoutes.js";
 import TicketRoutes from "./routes/ticketRoutes.js";
 import UserRoutes from "./routes/userRoutes.js";
+import isLoggedRoutes from "./routes/isLoggedRoutes.js";
 
 import { authenticateToken } from "./middlewares/authMiddleware.js";
 
@@ -17,6 +18,7 @@ app.use("/department", authenticateToken, DepartmentRoutes);
 app.use("/positions", authenticateToken, PositionRoutes);
 app.use("/ticket", authenticateToken, TicketRoutes);
 app.use("/users", authenticateToken, UserRoutes);
+app.use("/me", isLoggedRoutes);
 
 app.use(AuthRoutes);
 
