@@ -1,5 +1,6 @@
 // # inicializa o express e usa as rotas
 import express from "express";
+import cors from "cors"
 
 import PositionRoutes from "./routes/positionRoutes.js";
 import DepartmentRoutes from "./routes/departmentRoutes.js";
@@ -13,6 +14,13 @@ import AuthRoutes from "./routes/authRoutes.js";
 
 const app = express();
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // coloque seu front
+    credentials: true, // permite enviar cookies/token...
+  })
+);
 
 app.use("/department", authenticateToken, DepartmentRoutes);
 app.use("/positions", authenticateToken, PositionRoutes);
