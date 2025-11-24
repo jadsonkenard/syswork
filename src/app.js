@@ -28,7 +28,7 @@ app.use("/department", authenticateToken, DepartmentRoutes);
 app.use("/positions", authenticateToken, PositionRoutes);
 app.use("/ticket", authenticateToken, TicketRoutes);
 app.use("/users", authenticateToken, UserRoutes);
-app.use("/me", isLoggedRoutes);
+app.use("/auth/me", isLoggedRoutes);
 
 app.use(AuthRoutes);
 
