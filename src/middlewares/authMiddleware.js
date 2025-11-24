@@ -38,6 +38,6 @@ export async function authenticateToken(req, res, next) {
 
     return next();
   } catch (err) {
-    return res.status(403).json({ message: "Token inválido ou expirado." });
+    return res.status(401).json({ message: "Token inválido ou expirado." });
   }
 }

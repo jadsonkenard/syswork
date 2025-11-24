@@ -54,7 +54,7 @@ export default {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-        path: "/auth/refresh",
+        path: "/",
         maxAge: 1000 * 60 * 60 * 24 * 7,
       });
 
@@ -64,6 +64,3 @@ export default {
     }
   },
 };
-
-
-
