@@ -63,4 +63,24 @@ export default {
       return res.status(401).json({ message: error.message });
     }
   },
+    async logout(req, res) {
+    try {
+      res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+      });
+
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+      });
+
+      return res.status(200).json({ message: "Logout realizado com sucesso" });
+    } catch (error) {
+      return res.status(500).json({ message: "Erro ao fazer logout" });
+    }
+  },
 };

@@ -71,4 +71,7 @@ export default {
       throw new Error("Refresh token inválido ou expirado.");
     }
   },
+  async teste(){
+    
+  }
 };
