@@ -5,22 +5,24 @@ export default {
     try {
       const { username, password } = req.body;
 
-      const { accessToken, refreshToken, user } =
-        await authService.login(username, password);
+      const { accessToken, refreshToken, user } = await authService.login(
+        username,
+        password
+      );
 
       // ---- Setar cookies seguros ----
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: true,        // Em produção, sempre true. Em dev pode ser false.
-        sameSite: "strict",
+        secure: false, // Em produção, sempre true. Em dev pode ser false.
+        sameSite: "lax",
         maxAge: 1000 * 60 * 15, // 15 minutos
       });
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: true,
-        sameSite: "strict",
-        path: "/auth/refresh", 
+        secure: false,
+        sameSite: "lax",
+        path: "/api/auth/refresh",
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 dias
       });
 
@@ -39,20 +41,21 @@ export default {
         return res.status(401).json({ message: "Refresh token ausente" });
       }
 
-      const { accessToken, newRefreshToken } =
-        await authService.refresh(refreshToken);
+      const { accessToken, newRefreshToken } = await authService.refresh(
+        refreshToken
+      );
 
       // ---- Atualiza cookies ----
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: "strict",
         maxAge: 1000 * 60 * 15,
       });
 
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: "strict",
         path: "/",
         maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -63,19 +66,20 @@ export default {
       return res.status(401).json({ message: error.message });
     }
   },
-    async logout(req, res) {
+  
+  async logout(req, res) {
     try {
       res.clearCookie("accessToken", {
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
+        sameSite: "lax",
       });
 
       res.clearCookie("refreshToken", {
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
-        path: "/",
+        sameSite: "lax",
+        path: "/api/auth/refresh",
       });
 
       return res.status(200).json({ message: "Logout realizado com sucesso" });

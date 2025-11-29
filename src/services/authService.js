@@ -46,9 +46,6 @@ export default {
 
     const tokens = generateTokens(user);
 
-    // Opcional: salvar refreshToken no banco, se quiser invalidar depois
-    // await user.update({ refreshToken: tokens.refreshToken });
-
     const userData = user.toJSON();
     delete userData.password;
 
@@ -61,17 +58,10 @@ export default {
     try {
       const decoded = jwt.verify(refreshToken, REFRESH_SECRET);
 
-      // opcional: verificar se o refreshToken ainda é válido no banco
-      // const user = await User.findByPk(decoded.id);
-      // if (!user || user.refreshToken !== refreshToken) throw new Error("Refresh token inválido.");
-
       const tokens = generateTokens(decoded);
       return tokens;
     } catch (err) {
       throw new Error("Refresh token inválido ou expirado.");
     }
-  },
-  async teste(){
-    
-  }
+  }, 
 };
