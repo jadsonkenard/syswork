@@ -1,11 +1,23 @@
 import TicketService from "../services/TicketService.js";
 
 class TicketController {
+  // async getAll(req, res) {
+  //   try {
+  //     const tickets = await TicketService.getAll();
+
+  //     res.status(200).json(tickets);
+  //   } catch (error) {
+  //     res.status(400).json({ message: error.message });
+  //   }
+  // }
   async getAll(req, res) {
     try {
-      const tickets = await TicketService.getAll();
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 20;
 
-      res.status(200).json(tickets);
+      const result = await TicketService.getAll(page, limit);
+
+      res.status(200).json(result);
     } catch (error) {
       res.status(400).json({ message: error.message });
     }

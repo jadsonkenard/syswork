@@ -3,14 +3,36 @@ import db from "../database/models/index.js";
 const { Ticket, Department, User } = db;
 
 class TicketService {
-  async getAll() {
-    const tickets = await Ticket.findAll();
+  // async getAll() {
+  //   const tickets = await Ticket.findAll();
 
-    if (tickets == 0) {
-      throw new Error("Não forma encontrados chamados.");
+  //   if (tickets == 0) {
+  //     throw new Error("Não forma encontrados chamados.");
+  //   }
+
+  //   return tickets;
+  // }
+
+  async getAll(page = 1, limit = 20) {
+    const offset = (page - 1) * limit;
+
+    const { rows: tickets, count: total } = await Ticket.findAndCountAll({
+      limit,
+      offset,
+      order: [["createdAt", "DESC"]],
+    });
+
+    if (tickets.length === 0) {
+      throw new Error("Nenhum chamado encontrado.");
     }
 
-    return tickets;
+    return {
+      data: tickets,
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async store(data) {
