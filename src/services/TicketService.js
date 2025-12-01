@@ -248,8 +248,24 @@ class TicketService {
   }
 
   //BUSCA CHAMADOS PELO USUÁRIO LOGADO
-  async getMyTickets(id) {
-    const tickets = await Ticket.findAll({
+  // async getMyTickets(id, page = 1, limit = 20) {
+  //   const tickets = await Ticket.find({
+  //     where: { requester_user_id: id },
+  //     include: [
+  //       {
+  //         model: User,
+  //         as: "requester_user",
+  //         attributes: ["id", "full_name", "email"],
+  //       },
+  //     ],
+  //   });
+
+  //   return tickets;
+  // }
+  async getMyTickets(id, page = 1, limit = 20) {
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await Ticket.findAndCountAll({
       where: { requester_user_id: id },
       include: [
         {
@@ -257,15 +273,19 @@ class TicketService {
           as: "requester_user",
           attributes: ["id", "full_name", "email"],
         },
-        // {
-        //   model: Department,
-        //   as: "executor_department",
-        //   attributes: ["id", "name"],
-        // },
       ],
+      limit,
+      offset,
+      order: [["createdAt", "DESC"]],
     });
 
-    return tickets;
+    return {
+      total: count,
+      page,
+      limit,
+      pages: Math.ceil(count / limit),
+      data: rows,
+    };
   }
 
   async delete(id) {

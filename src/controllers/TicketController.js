@@ -109,10 +109,22 @@ class TicketController {
   }
 
   //BUSCA CHAMADOS PELO USUÁRIO LOGADO
+  // async getMyTickets(req, res) {
+  //   try {
+  //     const tickets = await TicketService.getMyTickets(req.user.id);
+  //     res.status(200).json(tickets);
+  //   } catch (error) {
+  //     res.status(400).json({ message: error.message });
+  //   }
+  // }
   async getMyTickets(req, res) {
     try {
-      const tickets = await TicketService.getMyTickets(req.user.id);
-      res.status(200).json(tickets);
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 20;
+
+      const result = await TicketService.getMyTickets(req.user.id, page, limit);
+
+      res.status(200).json(result);
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
