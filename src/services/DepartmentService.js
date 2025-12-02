@@ -105,17 +105,14 @@ class DepartmentService {
 
   //BUSCA OS CHAMADOS SOLICITADOS POR SETOR
   async getTicketRequestedDepartment(id, page = 1, limit = 20) {
-    // Verificar se o setor existe
     const department = await Department.findByPk(id);
 
     if (!department) {
       throw new Error("Setor não encontrado.");
     }
 
-    // Calcular offset
     const offset = (page - 1) * limit;
 
-    // Buscar tickets do setor com paginação
     const { count, rows } = await Ticket.findAndCountAll({
       where: { requester_department_id: id },
       limit,
@@ -123,13 +120,10 @@ class DepartmentService {
       order: [["createdAt", "DESC"]],
     });
 
-    // Caso não exista nenhum chamado no setor
     if (count === 0) {
       throw new Error("Nenhum chamado aberto por este setor.");
     }
 
-    // Caso o setor tenha chamados, mas a página esteja vazia
-    // → não gerar erro! apenas retornar vazio
     return {
       total: count,
       page,
@@ -140,23 +134,33 @@ class DepartmentService {
   }
 
   //BUSCA OS CHAMADOS RECEBIDOS (SETOR EXECUTANTE)
-  async getTicketExecutorDepartment(id) {
-    const department = await Department.findByPk(id, {
-      include: [{ model: Ticket, as: "tickets_executed" }],
-    });
+  async getTicketExecutorDepartment(id, page = 1, limit = 20) {
+    const department = await Department.findByPk(id);
 
     if (!department) {
       throw new Error("Setor não encontrado.");
     }
 
-    if (
-      !department.tickets_executed ||
-      department.tickets_executed.length === 0
-    ) {
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await Ticket.findAndCountAll({
+      where: { executor_department_id: id },
+      limit,
+      offset,
+      order: [["createdAt", "DESC"]],
+    });
+
+    if (count === 0) {
       throw new Error("Nenhum chamado aberto para este setor.");
     }
 
-    return department;
+    return {
+      total: count,
+      page,
+      limit,
+      pages: Math.ceil(count / limit),
+      data: rows,
+    };
   }
 
   //BUSCA CHAMADOS DIRECIONADOS PARA O MEU SETOR
