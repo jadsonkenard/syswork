@@ -228,32 +228,37 @@ class TicketService {
   }
 
   //BUSCA CHAMADOS POR ID DO USUÁRIO
-async getTicketByUser(id, page = 1, limit = 20) {
-  const offset = (page - 1) * limit;
+  async getTicketByUser(id, page = 1, limit = 20) {
+    const userExists = await User.findByPk(id);
+    
+    if (!userExists) {
+      throw new Error("Este ID de usuário não existe.");
+    }
+    
+    const offset = (page - 1) * limit;
 
-  const { count, rows } = await Ticket.findAndCountAll({
-    where: { requester_user_id: id },
-    include: [
-      {
-        model: User,
-        as: "requester_user",
-        attributes: ["id", "full_name", "email"],
-      },
-    ],
-    limit,
-    offset,
-    order: [["createdAt", "DESC"]],
-  });
+    const { count, rows } = await Ticket.findAndCountAll({
+      where: { requester_user_id: id },
+      include: [
+        {
+          model: User,
+          as: "requester_user",
+          attributes: ["id", "full_name", "email"],
+        },
+      ],
+      limit,
+      offset,
+      order: [["createdAt", "DESC"]],
+    });
 
-  return {
-    total: count,
-    page,
-    limit,
-    pages: Math.ceil(count / limit),
-    data: rows, // <-- Mesmo vazio, isso é o correto
-  };
-}
-
+    return {
+      total: count,
+      page,
+      limit,
+      pages: Math.ceil(count / limit),
+      data: rows, // <-- Mesmo vazio, isso é o correto
+    };
+  }
 
   //BUSCA CHAMADOS PELO USUÁRIO LOGADO
   // async getMyTickets(id, page = 1, limit = 20) {
