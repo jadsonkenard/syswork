@@ -65,13 +65,20 @@ class DepartamentController {
   //BUSCA OS CHAMADOS SOLICITADOS POR (SETOR SOLICITANTE)
   async getTicketRequestedDepartment(req, res) {
     try {
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 20;
+
       const { id } = req.params;
 
-      const tickets = await DepartmentService.getTicketRequestedDepartment(id);
+      const tickets = await DepartmentService.getTicketRequestedDepartment(
+        id,
+        page,
+        limit
+      );
 
-      res.json((await tickets).toJSON());
+      res.status(200).json(tickets);
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(404).json({ message: error.message });
     }
   }
 

@@ -104,23 +104,39 @@ class DepartmentService {
   }
 
   //BUSCA OS CHAMADOS SOLICITADOS POR SETOR
-  async getTicketRequestedDepartment(id) {
-    const department = await Department.findByPk(id, {
-      include: [{ model: Ticket, as: "tickets_requested" }],
-    });
+  async getTicketRequestedDepartment(id, page = 1, limit = 20) {
+    // Verificar se o setor existe
+    const department = await Department.findByPk(id);
 
     if (!department) {
-      throw new Error("Setor não encontrado");
+      throw new Error("Setor não encontrado.");
     }
 
-    if (
-      !department.tickets_requested ||
-      department.tickets_requested.length === 0
-    ) {
+    // Calcular offset
+    const offset = (page - 1) * limit;
+
+    // Buscar tickets do setor com paginação
+    const { count, rows } = await Ticket.findAndCountAll({
+      where: { requester_department_id: id },
+      limit,
+      offset,
+      order: [["createdAt", "DESC"]],
+    });
+
+    // Caso não exista nenhum chamado no setor
+    if (count === 0) {
       throw new Error("Nenhum chamado aberto por este setor.");
     }
 
-    return department;
+    // Caso o setor tenha chamados, mas a página esteja vazia
+    // → não gerar erro! apenas retornar vazio
+    return {
+      total: count,
+      page,
+      limit,
+      pages: Math.ceil(count / limit),
+      data: rows,
+    };
   }
 
   //BUSCA OS CHAMADOS RECEBIDOS (SETOR EXECUTANTE)
