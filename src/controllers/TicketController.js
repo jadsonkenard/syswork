@@ -97,11 +97,15 @@ class TicketController {
     }
   }
 
-  //BUSCA CHAMADOS POR ID DO USUÁRIO (ROTA PARA ADMIN)
+  //BUSCA CHAMADOS POR ID DO USUÁRIO
   async getTicketByUser(req, res) {
     try {
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 20;
+
       const { id } = req.params; // id do usuário
-      const tickets = await TicketService.getTicketByUser(id);
+
+      const tickets = await TicketService.getTicketByUser(id, page, limit);
       return res.status(200).json(tickets);
     } catch (error) {
       return res.status(400).json({ error: error.message });

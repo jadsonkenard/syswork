@@ -227,25 +227,33 @@ class TicketService {
     return Ticket.findByPk(id);
   }
 
-  //BUSCA CHAMADOS POR ID DO USUÁRIO (ROTA PARA ADMIN)
-  async getTicketByUser(id) {
-    const tickets = await Ticket.findAll({
-      where: { requester_user_id: id },
-      include: [
-        {
-          model: User,
-          as: "requester_user",
-          attributes: ["id", "full_name", "email"],
-        },
-      ],
-    });
+  //BUSCA CHAMADOS POR ID DO USUÁRIO
+async getTicketByUser(id, page = 1, limit = 20) {
+  const offset = (page - 1) * limit;
 
-    if (tickets.length === 0) {
-      throw new Error("Nenhum ticket encontrado para este usuário.");
-    }
+  const { count, rows } = await Ticket.findAndCountAll({
+    where: { requester_user_id: id },
+    include: [
+      {
+        model: User,
+        as: "requester_user",
+        attributes: ["id", "full_name", "email"],
+      },
+    ],
+    limit,
+    offset,
+    order: [["createdAt", "DESC"]],
+  });
 
-    return tickets;
-  }
+  return {
+    total: count,
+    page,
+    limit,
+    pages: Math.ceil(count / limit),
+    data: rows, // <-- Mesmo vazio, isso é o correto
+  };
+}
+
 
   //BUSCA CHAMADOS PELO USUÁRIO LOGADO
   // async getMyTickets(id, page = 1, limit = 20) {
