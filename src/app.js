@@ -20,6 +20,7 @@ app.use(
   cors({
     origin: "http://localhost:5173", // coloque seu front
     credentials: true, // permite enviar cookies/token...
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   })
 );
 
@@ -31,6 +32,5 @@ app.use("/department", authenticateToken, DepartmentRoutes);
 app.use("/positions", authenticateToken, PositionRoutes);
 app.use("/ticket", authenticateToken, TicketRoutes);
 app.use("/users", authenticateToken, UserRoutes);
-
 
 export default app;
