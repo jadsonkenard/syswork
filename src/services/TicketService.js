@@ -1,5 +1,4 @@
 import db from "../database/models/index.js";
-import { authorizeAdmin } from "../middlewares/authorizeAdmin.js";
 
 const { Ticket, Department, User } = db;
 
@@ -21,6 +20,23 @@ class TicketService {
       limit,
       offset,
       order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: Department,
+          as: "requester_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: Department,
+          as: "executor_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: User,
+          as: "requester_user",
+          attributes: ["id", "username"],
+        },
+      ],
     });
 
     if (tickets.length === 0) {
@@ -83,7 +99,25 @@ class TicketService {
   }
 
   async findById(id) {
-    const ticket = await Ticket.findByPk(id);
+    const ticket = await Ticket.findByPk(id, {
+      include: [
+        {
+          model: Department,
+          as: "requester_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: Department,
+          as: "executor_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: User,
+          as: "requester_user",
+          attributes: ["id", "username"],
+        },
+      ],
+    });
 
     if (!ticket) {
       throw new Error("Chamado não encontrado.");
@@ -250,16 +284,26 @@ class TicketService {
 
     const { count, rows } = await Ticket.findAndCountAll({
       where: { requester_user_id: id },
-      include: [
-        {
-          model: User,
-          as: "requester_user",
-          attributes: ["id", "full_name", "email"],
-        },
-      ],
       limit,
       offset,
       order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: Department,
+          as: "requester_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: Department,
+          as: "executor_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: User,
+          as: "requester_user",
+          attributes: ["id", "username"],
+        },
+      ],
     });
 
     return {
@@ -291,16 +335,26 @@ class TicketService {
 
     const { count, rows } = await Ticket.findAndCountAll({
       where: { requester_user_id: id },
-      include: [
-        {
-          model: User,
-          as: "requester_user",
-          attributes: ["id", "full_name", "email"],
-        },
-      ],
       limit,
       offset,
       order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: Department,
+          as: "requester_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: Department,
+          as: "executor_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: User,
+          as: "requester_user",
+          attributes: ["id", "username"],
+        },
+      ],
     });
 
     return {

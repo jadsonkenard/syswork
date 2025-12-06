@@ -1,6 +1,6 @@
 import db from "../database/models/index.js";
 
-const { Department, Position, Ticket } = db;
+const { Department, Position, Ticket, User } = db;
 
 class DepartmentService {
   async getAll() {
@@ -118,6 +118,23 @@ class DepartmentService {
       limit,
       offset,
       order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: Department,
+          as: "requester_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: Department,
+          as: "executor_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: User,
+          as: "requester_user",
+          attributes: ["id", "username"],
+        },
+      ],
     });
 
     if (count === 0) {
@@ -148,6 +165,23 @@ class DepartmentService {
       limit,
       offset,
       order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: Department,
+          as: "requester_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: Department,
+          as: "executor_department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: User,
+          as: "requester_user",
+          attributes: ["id", "username"],
+        },
+      ],
     });
 
     if (count === 0) {
