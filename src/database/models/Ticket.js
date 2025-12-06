@@ -33,7 +33,7 @@ export default (sequelize) => {
         allowNull: false,
       },
       description: {
-        type: DataTypes.STRING(1000),
+        type: DataTypes.STRING(255),
         allowNull: false,
       },
       status: {

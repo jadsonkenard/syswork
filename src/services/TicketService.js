@@ -70,8 +70,8 @@ class TicketService {
       throw new Error("A descrição do chamado precisa ser informado.");
     }
 
-    if (data.description.length > 1000) {
-      throw new Error("Quantidade máxima de caracteres excedida. Máx: 1000");
+    if (data.description.length > 255) {
+      throw new Error("Quantidade máxima de caracteres excedida. Máx: 255");
     }
 
     if (!data.requester_user_id) {
