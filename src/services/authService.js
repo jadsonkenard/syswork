@@ -35,14 +35,14 @@ function generateTokens(user) {
 export default {
   async login(username, password) {
     const user = await User.findOne({ where: { username } });
-    if (!user) throw new Error("Usuário não encontrado.");
+    if (!user) throw new Error("Usuário ou senha inválidos.");
 
     if (user.status === "inactive") {
       throw new Error("Conta inativa. Consulte o administrador.");
     }
 
     const isValid = await bcrypt.compare(password, user.password);
-    if (!isValid) throw new Error("Senha inválida.");
+    if (!isValid) throw new Error("Usuário ou senha inválidos.");
 
     const tokens = generateTokens(user);
 
@@ -63,5 +63,5 @@ export default {
     } catch (err) {
       throw new Error("Refresh token inválido ou expirado.");
     }
-  }, 
+  },
 };

@@ -87,9 +87,10 @@ class TicketController {
   async updateStatus(req, res) {
     try {
       const { id } = req.params;
-      const { status } = req.body;
 
-      const updated = await TicketService.updateStatus(id, { status });
+      const updated = await TicketService.updateStatus(id, req.body, {
+        isAdmin: req.user.role === "admin",
+      });
 
       res.status(200).json(updated);
     } catch (error) {

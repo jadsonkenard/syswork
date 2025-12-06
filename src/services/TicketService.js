@@ -1,4 +1,5 @@
 import db from "../database/models/index.js";
+import { authorizeAdmin } from "../middlewares/authorizeAdmin.js";
 
 const { Ticket, Department, User } = db;
 
@@ -204,7 +205,7 @@ class TicketService {
   }
 
   //ATLUALIZA STATUS DE UM CHAMADO
-  async updateStatus(id, data) {
+  async updateStatus(id, data, options) {
     const ticket = await Ticket.findByPk(id);
 
     if (!ticket) {
@@ -213,6 +214,12 @@ class TicketService {
 
     if (data.status == "") {
       throw new Error("O Status precisar ser informado.");
+    }
+
+    if (ticket.status === "done" && !options.isAdmin) {
+      throw new Error(
+        "Chamados finalizados não podem mais sofrer alterações de status."
+      );
     }
 
     const validStatus = ["open", "in progress", "done"];
@@ -230,11 +237,11 @@ class TicketService {
   //BUSCA CHAMADOS POR ID DO USUÁRIO
   async getTicketByUser(id, page = 1, limit = 20) {
     const userExists = await User.findByPk(id);
-    
+
     if (!userExists) {
       throw new Error("Este ID de usuário não existe.");
     }
-    
+
     const offset = (page - 1) * limit;
 
     const { count, rows } = await Ticket.findAndCountAll({
