@@ -15,6 +15,7 @@ function generateTokens(user) {
   const payload = {
     id: user.id,
     username: user.username,
+    email: user.email,
     department_id: user.department_id,
     position_id: user.position_id,
     role: user.role,
