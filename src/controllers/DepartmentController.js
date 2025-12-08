@@ -105,10 +105,15 @@ class DepartamentController {
   //BUSCA CHAMADOS DIRECIONADOS PARA O MEU SETOR
   async getTicketsMyDepartment(req, res) {
     try {
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 20;
+
       const departmentId = req.user.department_id;
 
       const tickets = await DepartmentService.getTicketsMyDepartment(
-        departmentId
+        departmentId,
+        page,
+        limit
       );
 
       return res.json(tickets);

@@ -198,8 +198,8 @@ class DepartmentService {
   }
 
   //BUSCA CHAMADOS DIRECIONADOS PARA O MEU SETOR
-  async getTicketsMyDepartment(id) {
-    const tickets = await this.getTicketExecutorDepartment(id);
+  async getTicketsMyDepartment(id, page = 1, limit = 20) {
+    const tickets = await this.getTicketExecutorDepartment(id, page, limit);
 
     if (!tickets || tickets.length === 0) {
       throw new Error("Não foram encontrados chamados.");
