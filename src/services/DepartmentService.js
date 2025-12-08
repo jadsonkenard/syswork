@@ -159,7 +159,7 @@ class DepartmentService {
     }
 
     const offset = (page - 1) * limit;
-
+    
     const { count, rows } = await Ticket.findAndCountAll({
       where: { executor_department_id: id },
       limit,
