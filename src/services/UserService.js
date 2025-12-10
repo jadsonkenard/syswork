@@ -17,7 +17,8 @@ import {
 class UserService {
   async getAll() {
     const users = await User.findAll({
-      attributes: { exclude: ["password"] },
+      attributes: { exclude: ["password"]},
+      
     });
 
     if (!users) {

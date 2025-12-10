@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import db from "../database/models/index.js";
 
-const { User } = db;
+const { User, Department } = db;
 
 import dotenv from "dotenv";
 
@@ -35,7 +35,16 @@ function generateTokens(user) {
 
 export default {
   async login(username, password) {
-    const user = await User.findOne({ where: { username } });
+    const user = await User.findOne({
+      where: { username },
+      include: [
+        {
+          model: Department,
+          as: "department",
+          attributes: ["id", "name"],
+        },
+      ],
+    });
     if (!user) throw new Error("Usuário ou senha inválidos.");
 
     if (user.status === "inactive") {
