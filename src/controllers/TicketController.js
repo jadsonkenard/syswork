@@ -25,18 +25,12 @@ class TicketController {
 
   async store(req, res) {
     try {
-      const {
-        title,
-        description,
-        requester_department_id,
-        executor_department_id,
-        status,
-      } = req.body;
+      const { title, description, executor_department_id, status } = req.body;
 
       const ticket = await TicketService.store({
         title,
         description,
-        requester_department_id,
+        requester_department_id: req.user.department_id,
         executor_department_id,
         requester_user_id: req.user.id,
         status,
