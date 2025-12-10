@@ -4,7 +4,7 @@ import { authorizeAdmin } from "./../middlewares/authorizeAdmin.js";
 
 const router = express.Router();
 
-router.get("/", authorizeAdmin, DepartmentController.getAll);
+router.get("/", DepartmentController.getAll);
 router.post("/", authorizeAdmin, DepartmentController.store);
 router.get("/executor/my", DepartmentController.getTicketsMyDepartment);
 router.get("/requester/my", DepartmentController.getTicketsToDepartment);
