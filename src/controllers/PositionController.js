@@ -3,7 +3,10 @@ import PositionService from "../services/PositionService.js";
 class PositionController {
   async getAll(req, res) {
     try {
-      const positions = await PositionService.getAll();
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 20;
+
+      const positions = await PositionService.getAll(page, limit);
       res.json(positions);
     } catch (error) {
       res.status(400).json({ message: error.message });

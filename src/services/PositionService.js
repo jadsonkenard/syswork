@@ -5,13 +5,26 @@ const { Position, Department } = db;
 import { Op } from "sequelize";
 
 class PositionService {
-  async getAll() {
-    const position = await Position.findAll();
-    if (!position) throw new Error("Ocorreu um erro ao buscar funções.");
+  async getAll(page = 1, limit = 20) {
+    const offset = (page - 1) * limit;
 
-    if (position == 0) throw new Error("Não foram encontradas funções.");
+    const { rows: positons, count: total } = await Position.findAndCountAll({
+      limit,
+      offset,
+      order: [["createdAt", "DESC"]],
+    });
 
-    return position;
+    if (positons.length === 0) {
+      throw new Error("Nenhuma função encontrada.");
+    }
+
+    return {
+      data: positons,
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async store(data) {
