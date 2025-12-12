@@ -1,4 +1,6 @@
 // # inicializa o express e usa as rotas
+import { licenseMiddleware } from "./api/licenseMiddleware.js";
+
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -10,9 +12,13 @@ import UserRoutes from "./routes/userRoutes.js";
 import AuthRoutes from "./routes/authRoutes.js";
 import isLoggedRoutes from "./routes/isLoggedRoutes.js";
 
+
 import { authenticateToken } from "./middlewares/authMiddleware.js";
 
 const app = express();
+
+app.use(licenseMiddleware);
+
 app.use(express.json());
 app.use(cookieParser());
 
