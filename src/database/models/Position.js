@@ -28,8 +28,8 @@ export default (sequelize) => {
         allowNull: false,
       },
       salary: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
       },
     },
     {

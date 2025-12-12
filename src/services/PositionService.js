@@ -11,7 +11,7 @@ class PositionService {
     const { rows: positons, count: total } = await Position.findAndCountAll({
       limit,
       offset,
-      order: [["createdAt", "DESC"]],
+      order: [["id", "ASC"]],
     });
 
     if (positons.length === 0) {
