@@ -4,7 +4,15 @@ const { Department, Position, Ticket, User } = db;
 
 class DepartmentService {
   async getAll() {
-    const department = await Department.findAll();
+    const department = await Department.findAll({
+      include: [
+        {
+          model: Position,
+          as: "position",
+          attributes: ["id", "name"],
+        },
+      ],
+    });
 
     if (!department) throw new Error("Ocorreu um erro ao buscar setores.");
 
@@ -159,7 +167,7 @@ class DepartmentService {
     }
 
     const offset = (page - 1) * limit;
-    
+
     const { count, rows } = await Ticket.findAndCountAll({
       where: { executor_department_id: id },
       limit,
