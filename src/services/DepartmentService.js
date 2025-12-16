@@ -1,3 +1,4 @@
+import { ForeignKeyConstraintError } from "sequelize";
 import db from "../database/models/index.js";
 
 const { Department, Position, Ticket, User } = db;
@@ -107,8 +108,18 @@ class DepartmentService {
       throw new Error("Setor não encontrado.");
     }
 
-    await department.destroy();
-    return { message: "Setor deletado com sucesso!." };
+    try {
+      await department.destroy();
+      return { message: "Setor deletado com sucesso!" };
+    } catch (error) {
+      if (error instanceof ForeignKeyConstraintError) {
+        throw new Error(
+          "Não é possível excluir este setor porque existem chamados vinculados a ele."
+        );
+      }
+
+      throw error;
+    }
   }
 
   //BUSCA OS CHAMADOS SOLICITADOS POR SETOR
