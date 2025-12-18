@@ -255,9 +255,7 @@ class TicketService {
         "Chamados finalizados não podem mais sofrer alterações de status."
       );
     } else if (ticket.status === "done" && options.isAdmin) {
-      throw new Error(
-        "Para modificar o status vá até: Gerenciamento de Unidade > Chamados"
-      );
+      throw new Error("Para modificar o status vá até: vá em Editar");
     }
 
     const validStatus = ["open", "in progress", "done"];
