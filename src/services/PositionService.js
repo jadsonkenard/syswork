@@ -31,9 +31,7 @@ class PositionService {
     if (!data.name || data.name == "") {
       throw new Error("O nome precisa ser preenchido.");
     }
-    if (data.salary <= 0) {
-      throw new Error("O salario não poder ser 0 ou negativo");
-    }
+
     if (!data.salary) {
       throw new Error("O salário precisa ser preenchido.");
     }

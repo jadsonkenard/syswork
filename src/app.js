@@ -1,5 +1,5 @@
 // # inicializa o express e usa as rotas
-import { licenseMiddleware } from "./api/licenseMiddleware.js";
+import checkEnvironment from "./api/licenseMiddleware.js";
 
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -17,7 +17,7 @@ import { authenticateToken } from "./middlewares/authMiddleware.js";
 
 const app = express();
 
-app.use(licenseMiddleware);
+app.use(checkEnvironment);
 
 app.use(express.json());
 app.use(cookieParser());

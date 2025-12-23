@@ -220,7 +220,7 @@ class TicketService {
 
     if (data.status && !validStatus.includes(data.status)) {
       throw new Error(
-        "Status inválido. Valores permitidos: Aberto, Em execução, Concluído."
+        "Status inválido. Valores permitidos: Aberto, Em andamento, Concluído."
       );
     }
 
@@ -255,7 +255,7 @@ class TicketService {
         "Chamados finalizados não podem mais sofrer alterações de status."
       );
     } else if (ticket.status === "done" && options.isAdmin) {
-      throw new Error("Para modificar o status vá até: vá em Editar");
+      throw new Error("Para modificar o status vá até: Editar");
     }
 
     const validStatus = ["open", "in progress", "done"];
