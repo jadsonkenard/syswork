@@ -26,11 +26,7 @@ export default (sequelize) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      salary: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: true,
-      },
+      }
     },
     {
       sequelize,

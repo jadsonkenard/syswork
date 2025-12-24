@@ -15,9 +15,9 @@ class PositionController {
 
   async store(req, res) {
     try {
-      const { name, salary } = req.body;
+      const { name } = req.body;
 
-      const position = await PositionService.store({ name, salary });
+      const position = await PositionService.store({ name });
       res.status(201).json(position);
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -38,9 +38,9 @@ class PositionController {
   async update(req, res) {
     try {
       const { id } = req.params;
-      const { name, salary } = req.body;
+      const { name } = req.body;
 
-      const updated = await PositionService.update(id, { name, salary });
+      const updated = await PositionService.update(id, { name });
 
       res.status(200).json(updated);
     } catch (error) {

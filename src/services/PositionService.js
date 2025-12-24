@@ -32,10 +32,6 @@ class PositionService {
       throw new Error("O nome precisa ser preenchido.");
     }
 
-    if (!data.salary) {
-      throw new Error("O salário precisa ser preenchido.");
-    }
-
     return await Position.create(data);
   }
 
@@ -71,20 +67,6 @@ class PositionService {
 
     if (data.name == "") {
       throw new Error("O nome não pode ser vazio.");
-    }
-
-    if (data.salary !== undefined) {
-      const newSalary = Number(data.salary);
-      const currentSalary = Number(position.salary);
-
-      if (newSalary !== currentSalary) {
-        dataToUpdate.salary = newSalary;
-        changesDetected = true;
-      }
-    }
-
-    if (data.salary === 0) {
-      throw new Error("O salário não pode ser 0");
     }
 
     if (!changesDetected) {
