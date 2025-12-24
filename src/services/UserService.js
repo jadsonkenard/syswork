@@ -15,10 +15,26 @@ import {
 } from "../utils/validations.js";
 
 class UserService {
-  async getAll() {
-    const users = await User.findAll({
-      attributes: { exclude: ["password"]},
-      
+  async getAll(page = 1, limit = 20) {
+    const offset = (page - 1) * limit;
+
+    const { rows: users, count: total } = await User.findAndCountAll({
+      limit,
+      offset,
+      order: [["createdAt", "DESC"]],
+      attributes: { exclude: ["password"] },
+      include: [
+        {
+          model: Department,
+          as: "department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: Position,
+          as: "position",
+          attributes: ["id", "name"],
+        },
+      ],
     });
 
     if (!users) {
@@ -29,7 +45,13 @@ class UserService {
       throw new Error("Nenhum usuário cadastrado.");
     }
 
-    return users;
+    return {
+      data: users,
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async store(data) {
@@ -276,10 +298,7 @@ class UserService {
       throw new Error("Setor não encontrado.");
     }
 
-    if (
-      !department.users ||
-      department.users.length === 0
-    ) {
+    if (!department.users || department.users.length === 0) {
       throw new Error("Nenhum usuário vinculado a este setor.");
     }
 

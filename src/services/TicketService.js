@@ -318,20 +318,6 @@ class TicketService {
   }
 
   //BUSCA CHAMADOS PELO USUÁRIO LOGADO
-  // async getMyTickets(id, page = 1, limit = 20) {
-  //   const tickets = await Ticket.find({
-  //     where: { requester_user_id: id },
-  //     include: [
-  //       {
-  //         model: User,
-  //         as: "requester_user",
-  //         attributes: ["id", "full_name", "email"],
-  //       },
-  //     ],
-  //   });
-
-  //   return tickets;
-  // }
   async getMyTickets(id, page = 1, limit = 20) {
     const offset = (page - 1) * limit;
 
