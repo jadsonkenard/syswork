@@ -1,5 +1,5 @@
 // # inicializa o express e usa as rotas
-import checkEnvironment from "./api/licenseMiddleware.js";
+import checkEnvironment from "./api/checkEnvironment.js";
 
 import express from "express";
 import cookieParser from "cookie-parser";

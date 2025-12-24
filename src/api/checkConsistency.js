@@ -8,12 +8,12 @@ import { existsSync, readFileSync } from "fs";
 import { verify } from "crypto";
 import { join } from "path";
 
-export default function loadLicense() {
-  const licPath = join(__dirname, "license", "license.json");
-  const pubPath = join(__dirname, "license", "public.pem");
+export default function checkConsistency() {
+  const licPath = join(__dirname, "loadCache", "temp.json");
+  const pubPath = join(__dirname, "loadCache", "public.pem");
 
   if (!existsSync(licPath)) {
-    return { valid: false, reason: "missing-license" };
+    return { valid: false, reason: "inconsistent-state" };
   }
 
   const licenseFile = JSON.parse(readFileSync(licPath, "utf8"));
@@ -21,7 +21,6 @@ export default function loadLicense() {
 
   const { payload, signature } = licenseFile;
 
-  // 1. Verifica assinatura
   const signatureValid = verify(
     "sha256",
     Buffer.from(payload, "utf8"),
@@ -33,7 +32,6 @@ export default function loadLicense() {
     return { valid: false, reason: "invalid-signature" };
   }
 
-  // 2. Verifica expiração
   const data = JSON.parse(payload);
 
   if (new Date(data.expiresAt) < new Date()) {
