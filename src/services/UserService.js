@@ -21,7 +21,7 @@ class UserService {
     const { rows: users, count: total } = await User.findAndCountAll({
       limit,
       offset,
-      order: [["createdAt", "DESC"]],
+      order: [["id", "ASC"]],
       attributes: { exclude: ["password"] },
       include: [
         {
