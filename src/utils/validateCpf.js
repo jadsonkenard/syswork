@@ -1,40 +1,56 @@
+//
 import db from "../database/models/index.js";
 
 const { User } = db;
 
-export async function validateCPF(cpf) {
-  if (!cpf) throw new Error("O CPF precisa ser informado.");
+export async function validateAndNormalizeCPF(rawCpf) {
+  if (!rawCpf) {
+    throw new Error("O CPF precisa ser informado.");
+  }
 
-  // Remove caracteres não numéricos
-  cpf = cpf.replace(/[^\d]+/g, "");
+  // Normaliza (remove tudo que não for número)
+  const cpf = rawCpf.replace(/\D/g, "");
 
-  // CPF precisa ter 11 dígitos
-  if (cpf.length !== 11) throw new Error("O CPF precisa ter 11 dígitos.");
+  if (cpf.length !== 11) {
+    throw new Error("O CPF precisa ter 11 dígitos.");
+  }
 
   // Rejeita CPFs com todos os dígitos iguais
-  if (/^(\d)\1+$/.test(cpf)) throw new Error("CPF inválido.");
+  if (/^(\d)\1{10}$/.test(cpf)) {
+    throw new Error("CPF inválido.");
+  }
 
   // Validação dos dígitos verificadores
   let soma = 0;
   for (let i = 0; i < 9; i++) {
-    soma += parseInt(cpf.charAt(i)) * (10 - i);
+    soma += Number(cpf[i]) * (10 - i);
   }
 
-  let resto = 11 - (soma % 11);
-  if (resto === 10 || resto === 11) resto = 0;
-  if (resto !== parseInt(cpf.charAt(9))) throw new Error("CPF inválido.");
+  let resto = (soma * 10) % 11;
+  if (resto === 10) resto = 0;
+
+  if (resto !== Number(cpf[9])) {
+    throw new Error("CPF inválido.");
+  }
 
   soma = 0;
   for (let i = 0; i < 10; i++) {
-    soma += parseInt(cpf.charAt(i)) * (11 - i);
+    soma += Number(cpf[i]) * (11 - i);
   }
 
-  resto = 11 - (soma % 11);
-  if (resto === 10 || resto === 11) resto = 0;
-  if (resto !== parseInt(cpf.charAt(10))) throw new Error("CPF inválido.");
+  resto = (soma * 10) % 11;
+  if (resto === 10) resto = 0;
 
-  const existingCPF = await User.findOne({ where: { cpf: cpf } });
-  if (existingCPF) throw new Error("CPF já cadastrado.");
+  if (resto !== Number(cpf[10])) {
+    throw new Error("CPF inválido.");
+  }
 
-  return true;
+  // Unicidade no banco
+  const existingCPF = await User.findOne({ where: { cpf } });
+  if (existingCPF) {
+    throw new Error("CPF já cadastrado.");
+  }
+
+  // 🔥 Retorna CPF NORMALIZADO
+  return cpf;
 }

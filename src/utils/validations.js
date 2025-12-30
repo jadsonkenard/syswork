@@ -1,5 +1,5 @@
 import { validateFullName } from "./validateFullName.js";
-import { validateCPF } from "./validateCpf.js";
+import { validateAndNormalizeCPF } from "./validateCpf.js";
 import { validatePhone } from "./validatePhone.js";
 import { validateEmail } from "./validadeEmail.js";
 import { validateUsername } from "./validateUsername.js";
@@ -10,7 +10,7 @@ import { cleanCPF } from "./cleanCpf.js";
 
 export {
   validateFullName,
-  validateCPF,
+  validateAndNormalizeCPF,
   validatePhone,
   validateEmail,
   validateUsername,

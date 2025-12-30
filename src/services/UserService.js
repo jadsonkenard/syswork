@@ -5,7 +5,7 @@ const { User, Department, Position } = db;
 import bcrypt from "bcrypt";
 import {
   validateFullName,
-  validateCPF,
+  validateAndNormalizeCPF,
   validatePhone,
   validateEmail,
   validateUsername,
@@ -60,8 +60,6 @@ class UserService {
 
     validateFullName(data.full_name);
 
-    if (await validateCPF(data.cpf));
-
     await validatePhone(data.phone);
 
     await validateEmail(data.email);
@@ -73,6 +71,8 @@ class UserService {
     const role = validateRole(data.role);
 
     const status = validateStatus(data.status);
+
+    const cpf = await validateAndNormalizeCPF(data.cpf);
 
     if (!position) {
       throw new Error("Esta função não existe.");
@@ -87,6 +87,7 @@ class UserService {
     await User.create({
       ...data,
       password: hashedPassword,
+      cpf: cpf,
       role: role,
       status: status,
     });
@@ -97,6 +98,18 @@ class UserService {
   async findById(id) {
     const user = await User.findByPk(id, {
       attributes: { exclude: ["password"] },
+      include: [
+        {
+          model: Department,
+          as: "department",
+          attributes: ["id", "name"],
+        },
+        {
+          model: Position,
+          as: "position",
+          attributes: ["id", "name"],
+        },
+      ],
     });
 
     if (!user) {
