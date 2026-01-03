@@ -141,44 +141,43 @@ class UserService {
     }
 
     if (data.cpf !== undefined) {
-      if (await validateCPF(data.cpf));
       const newCpf = String(data.cpf).trim();
       const currentCpf = user.cpf.trim();
 
       if (newCpf !== currentCpf) {
-        dataToUpdate.cpf = newCpf;
+        dataToUpdate.cpf = cpf;
         changesDetected = true;
       }
     }
 
     if (data.phone !== undefined) {
-      await validatePhone(data.phone);
       const newPhone = String(data.phone).trim();
       const currentPhone = user.phone.trim();
 
       if (newPhone !== currentPhone) {
+        await validatePhone(newPhone);
         dataToUpdate.phone = newPhone;
         changesDetected = true;
       }
     }
 
     if (data.email !== undefined) {
-      await validateEmail(data.email);
       const newEmail = String(data.email).trim();
       const currentEmail = user.email.trim();
 
       if (newEmail !== currentEmail) {
+        await validateEmail(newEmail);
         dataToUpdate.email = newEmail;
         changesDetected = true;
       }
     }
 
     if (data.username !== undefined) {
-      await validateUsername(data.username);
       const newUsername = String(data.username).trim();
       const currentUsername = user.username.trim();
 
       if (newUsername !== currentUsername) {
+        await validateUsername(newUsername);
         dataToUpdate.username = newUsername;
         changesDetected = true;
       }
