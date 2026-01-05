@@ -131,5 +131,6 @@ PORT = 8000 //porta
 
 ## Licença
 
-Este projeto está sob a licença MIT.
-Sinta-se livre para usar, modificar e distribuir conforme necessário.
+Todos os direitos reservados.
+
+Este projeto é de propriedade exclusiva de jadson kenard e não pode ser copiado, modificado, distribuído, ou utilizado de qualquer forma sem permissão explícita por escrito.
