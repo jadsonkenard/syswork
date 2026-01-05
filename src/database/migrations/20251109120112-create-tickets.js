@@ -14,13 +14,23 @@ export async function up(queryInterface, Sequelize) {
       allowNull: false,
     },
     description: {
-      type: Sequelize.TEXT,
+      type: Sequelize.STRING(255),
       allowNull: false,
     },
     status: {
       type: Sequelize.ENUM("open", "in progress", "done"),
       defaultValue: "open",
       allowNull: false,
+    },
+    requester_user_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "RESTRICT",
     },
     requester_department_id: {
       type: Sequelize.INTEGER,

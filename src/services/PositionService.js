@@ -14,7 +14,7 @@ class PositionService {
       order: [["id", "ASC"]],
     });
 
-    if (positons.length === 0) {
+    if (positons === 0) {
       throw new Error("Nenhuma função encontrada.");
     }
 

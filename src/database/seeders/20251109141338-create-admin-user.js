@@ -1,6 +1,6 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
-"use strict";
+("use strict");
 
 /** @type {import('sequelize-cli').Migration} */
 export async function up(queryInterface, Sequelize) {
@@ -9,7 +9,7 @@ export async function up(queryInterface, Sequelize) {
   return queryInterface.bulkInsert("Users", [
     {
       full_name: "admin",
-      cpf: "47765493019",
+      cpf: "00711092001",
       phone: "87988554477",
       email: "admin@syswork.com",
       username: "admin",
@@ -17,6 +17,7 @@ export async function up(queryInterface, Sequelize) {
       role: "admin",
       position_id: 1,
       department_id: 1,
+      status: "active",
       createdAt: new Date(),
       updatedAt: new Date(),
     },

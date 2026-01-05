@@ -63,6 +63,11 @@ export async function up(queryInterface, Sequelize) {
       onUpdate: "CASCADE",
       onDelete: "RESTRICT",
     },
+    status: {
+      type: Sequelize.ENUM("active", "inactive"),
+      allowNull: false,
+      defaultValue: "active",
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,

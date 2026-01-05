@@ -17,7 +17,7 @@ class DepartmentService {
 
     if (!department) throw new Error("Ocorreu um erro ao buscar setores.");
 
-    if (department == 0) throw new Error("Não foram encontrados setores.");
+    if (department === 0) throw new Error("Não foram encontrados setores.");
 
     return department;
   }

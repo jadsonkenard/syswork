@@ -4,8 +4,7 @@
 export async function up(queryInterface, Sequelize) {
   return queryInterface.bulkInsert("Positions", [
     {
-      name: "Técnico de Informática",
-      salary: 5200,
+      name: "Tecnologia da Informação",
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -13,6 +12,6 @@ export async function up(queryInterface, Sequelize) {
 }
 export async function down(queryInterface, Sequelize) {
   return queryInterface.bulkDelete("Positions", {
-    name: "Técnico de Informática",
+    name: "Tecnologia da Informação",
   });
 }

@@ -13,10 +13,6 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    salary: {
-      type: Sequelize.DECIMAL,
-      allowNull: false,
-    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,
